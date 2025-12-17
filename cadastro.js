@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     try {
       // Criar usuário no Auth
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password: senha });
+      const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({ email, password: senha });
       if (signUpError) { alert(signUpError.message); return; }
 
       // Criar perfil na tabela profiles
-      const { error: perfilError } = await supabase.from('profiles').insert([{ id: signUpData.user.id, nome, role }]);
+      const { error: perfilError } = await supabaseClient.from('profiles').insert([{ id: signUpData.user.id, nome, role }]);
       if (perfilError) { alert(perfilError.message); return; }
 
       alert("Cadastro realizado com sucesso! Faça login agora.");
