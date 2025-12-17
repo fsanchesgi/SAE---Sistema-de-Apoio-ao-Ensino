@@ -23,13 +23,12 @@
 </form>
 <p>Já tem conta? <a href="login.html">Login</a></p>
 
-<!-- Script único: Supabase + cliente + cadastro -->
 <script>
-  // Carrega Supabase dinamicamente
+  // Carrega a biblioteca Supabase dinamicamente
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
   script.onload = () => {
-    // Cria o cliente Supabase assim que a biblioteca carregar
+    // Cria o cliente Supabase
     const supabaseClient = supabase.createClient(
       'https://vhwhjnghtmlrfieiwssi.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZod2hqbmdodG1scmZpZWl3c3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5OTM4OTUsImV4cCI6MjA4MTU2OTg5NX0.XV6vxBeRtIcDNEGsJuDU_wPcnm2qmK8ZoHEuHQR2TMU'
@@ -47,20 +46,42 @@
       const senha = document.getElementById('senha').value.trim();
       const role = document.getElementById('role').value;
 
-      if (!nome || !email || !senha || !role) { alert("Preencha todos os campos"); return; }
+      if (!nome || !email || !senha || !role) { 
+        alert("Preencha todos os campos"); 
+        return; 
+      }
 
       try {
-        // Criar usuário no Auth
-        const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({ email, password: senha });
-        if (signUpError) { alert(signUpError.message); console.error(signUpError); return; }
+        // 1️⃣ Criar usuário no Auth
+        const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({
+          email,
+          password: senha
+        });
 
-        // Inserir perfil na tabela profiles
+        if (signUpError) {
+          console.error("Erro no Auth:", signUpError);
+          alert("Erro no Auth: " + signUpError.message);
+          return;
+        }
+
+        const userId = signUpData.user?.id;
+        if (!userId) {
+          alert("Erro: usuário não criado corretamente.");
+          return;
+        }
+
+        // 2️⃣ Inserir perfil na tabela profiles
         const { data: perfilData, error: perfilError } = await supabaseClient.from('profiles').insert([{
-          id: signUpData.user.id,
+          id: userId,
           nome,
           role
         }]);
-        if (perfilError) { alert(perfilError.message); console.error(perfilError); return; }
+
+        if (perfilError) {
+          console.error("Erro ao inserir perfil:", perfilError);
+          alert("Erro ao criar perfil: " + perfilError.message);
+          return;
+        }
 
         console.log("Perfil inserido com sucesso:", perfilData);
         alert("Cadastro realizado com sucesso! Faça login agora.");
