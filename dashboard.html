@@ -13,15 +13,27 @@
 
   <script src="script.js"></script>
   <script>
-    async function carregarDashboard() {
-      const user = supabase.auth.getSession();
-      document.getElementById('conteudo').innerHTML = 'Bem-vindo ao SAE!';
-    }
-    carregarDashboard();
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('logout').addEventListener('click', logout);
 
-    document.getElementById('logout').addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      window.location.href = 'login.html';
+      async function carregar() {
+        const perfil = await getPerfil();
+        if (!perfil) return;
+
+        const container = document.getElementById('conteudo');
+        container.innerHTML = `<h2>Bem-vindo(a) ${perfil.nome} - ${perfil.role}</h2>`;
+
+        if (perfil.role === 'admin') {
+          container.innerHTML += `<div id="listaUsuarios"></div>`;
+          listarUsuariosPendentes();
+        } else if (perfil.role === 'professor') {
+          container.innerHTML += `<p>Use funções no console: criarAula, criarProva, exportarResultados</p>`;
+        } else if (perfil.role === 'aluno' || perfil.role === 'pai') {
+          container.innerHTML += `<p>Use funções no console: listarAulasAluno(aluno_id), listarNotasAluno(aluno_id)</p>`;
+        }
+      }
+
+      carregar();
     });
   </script>
 </body>
