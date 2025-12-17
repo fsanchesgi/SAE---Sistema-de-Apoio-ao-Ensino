@@ -3,133 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SAE - Cadastro/Login</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 400px; margin: 50px auto; }
-    input, select, button { display: block; width: 100%; margin: 10px 0; padding: 8px; }
-    button { cursor: pointer; }
-    .tab { cursor: pointer; display: inline-block; padding: 10px; background: #eee; margin-right: 5px; }
-    .active { background: #ccc; }
-  </style>
+  <title>Login - SAE</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>Login - SAE</h1>
+  <form id="formLogin">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="senha" placeholder="Senha" required>
+    <button type="submit">Entrar</button>
+  </form>
+  <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
 
-<h1>SAE - Sistema de Apoio ao Ensino</h1>
-
-<!-- Abas -->
-<div>
-  <span class="tab active" id="tabCadastro">Cadastro</span>
-  <span class="tab" id="tabLogin">Login</span>
-</div>
-
-<!-- Formulário de Cadastro -->
-<form id="formCadastro">
-  <input type="text" id="nome" placeholder="Nome completo" required>
-  <input type="email" id="emailCadastro" placeholder="Email" required>
-  <input type="password" id="senhaCadastro" placeholder="Senha" required>
-  <select id="role" required>
-    <option value="">Selecione o perfil</option>
-    <option value="aluno">Aluno</option>
-    <option value="pai">Pai</option>
-    <option value="professor">Professor</option>
-    <option value="admin">Admin</option>
-  </select>
-  <button type="submit">Cadastrar</button>
-</form>
-
-<!-- Formulário de Login -->
-<form id="formLogin" style="display:none;">
-  <input type="email" id="emailLogin" placeholder="Email" required>
-  <input type="password" id="senhaLogin" placeholder="Senha" required>
-  <button type="submit">Entrar</button>
-</form>
-
-<!-- Biblioteca Supabase -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-
-<!-- Criação do cliente Supabase -->
-<script>
-  const supabaseUrl = 'https://vhwhjnghtmlrfieiwssi.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZod2hqbmdodG1scmZpZWl3c3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5OTM4OTUsImV4cCI6MjA4MTU2OTg5NX0.XV6vxBeRtIcDNEGsJuDU_wPcnm2qmK8ZoHEuHQR2TMU';
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const tabCadastro = document.getElementById('tabCadastro');
-  const tabLogin = document.getElementById('tabLogin');
-  const formCadastro = document.getElementById('formCadastro');
-  const formLogin = document.getElementById('formLogin');
-
-  // Alterna abas
-  tabCadastro.addEventListener('click', () => {
-    formCadastro.style.display = 'block';
-    formLogin.style.display = 'none';
-    tabCadastro.classList.add('active');
-    tabLogin.classList.remove('active');
-  });
-
-  tabLogin.addEventListener('click', () => {
-    formCadastro.style.display = 'none';
-    formLogin.style.display = 'block';
-    tabLogin.classList.add('active');
-    tabCadastro.classList.remove('active');
-  });
-
-  // Cadastro
-  formCadastro.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nome = document.getElementById('nome').value.trim();
-    const email = document.getElementById('emailCadastro').value.trim();
-    const senha = document.getElementById('senhaCadastro').value.trim();
-    const role = document.getElementById('role').value;
-    if (!nome || !email || !senha || !role) { alert("Preencha todos os campos"); return; }
-
-    try {
-      const { data: signUpData, error: signUpError } = await supabase.auth.signUp({ email, password: senha });
-      if (signUpError) { alert(signUpError.message); return; }
-
-      const { error: perfilError } = await supabase.from('profiles').insert([{ id: signUpData.user.id, nome, role }]);
-      if (perfilError) { alert(perfilError.message); return; }
-
-      alert("Cadastro realizado com sucesso! Faça login agora.");
-      tabLogin.click();
-    } catch (err) {
-      alert("Erro inesperado: " + err.message);
-    }
-  });
-
-  // Login
-  formLogin.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('emailLogin').value.trim();
-    const senha = document.getElementById('senhaLogin').value.trim();
-    if (!email || !senha) { alert("Preencha todos os campos"); return; }
-
-    try {
-      const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({ email, password: senha });
-      if (loginError) { alert(loginError.message); return; }
-
-      const { data: perfilData, error: perfilError } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', loginData.user.id)
-        .single();
-      if (perfilError || !perfilData) { alert("Erro ao carregar perfil"); return; }
-
-      // Redireciona pelo role
-      switch (perfilData.role) {
-        case 'admin': window.location.href = 'dashboard_admin.html'; break;
-        case 'professor': window.location.href = 'dashboard_professor.html'; break;
-        case 'aluno': window.location.href = 'dashboard_aluno.html'; break;
-        case 'pai': window.location.href = 'dashboard_pai.html'; break;
-        default: alert("Perfil desconhecido");
-      }
-    } catch (err) {
-      alert("Erro inesperado: " + err.message);
-    }
-  });
-});
-</script>
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <script src="supabase_client.js"></script>
+  <script src="login.js"></script>
 </body>
 </html>
