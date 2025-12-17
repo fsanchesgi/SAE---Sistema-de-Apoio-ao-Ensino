@@ -22,25 +22,40 @@
   </form>
   <p>Já tem conta? <a href="login.html">Login</a></p>
 
+  <!-- Sempre colocar script do supabase antes do código que usa ele -->
   <script src="script.js"></script>
   <script>
-    const formCadastro = document.getElementById('formCadastro');
-    formCadastro.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-      const role = document.getElementById('role').value;
+    document.addEventListener("DOMContentLoaded", function() {
+      const formCadastro = document.getElementById('formCadastro');
+      formCadastro.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      const { data, error } = await supabase.auth.signUp({ email, password: senha });
-      if (error) {
-        alert(error.message);
-      } else {
-        // Salvar role no perfil
-        await supabase.from('profiles').insert([{ id: data.user.id, nome, role }]);
+        const nome = document.getElementById('nome').value;
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const role = document.getElementById('role').value;
+
+        if (!role) { alert("Selecione um papel"); return; }
+
+        // Criar usuário no Supabase Auth
+        const { data, error } = await supabase.auth.signUp({ email, password: senha });
+        if (error) {
+          alert(error.message);
+          return;
+        }
+
+        // Salvar dados do perfil
+        const { error: perfilError } = await supabase
+          .from('profiles')
+          .insert([{ id: data.user.id, nome, role }]);
+        if (perfilError) {
+          alert(perfilError.message);
+          return;
+        }
+
         alert('Cadastro realizado com sucesso!');
         window.location.href = 'login.html';
-      }
+      });
     });
   </script>
 </body>
