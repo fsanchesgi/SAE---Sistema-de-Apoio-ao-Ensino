@@ -1,0 +1,58 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+header, footer {
+  background-color: #004aad;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+input, select, button {
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.carrossel {
+  max-width: 600px;
+  margin: 20px auto;
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.slide.ativo {
+  opacity: 1;
+}
