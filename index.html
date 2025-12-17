@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAE - Sistema de Apoio ao Ensino</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>SAE</h1>
+    <nav>
+      <a href="login.html">Login</a>
+      <a href="cadastro.html">Cadastro</a>
+      <a href="institucional.html">Sobre</a>
+    </nav>
+  </header>
+
+  <section class="carrossel">
+    <div class="slide ativo">Aulas completas do 1º ao 8º ano</div>
+    <div class="slide">Trimestres com provas e avaliações</div>
+    <div class="slide">Relatórios e gráficos para professores</div>
+  </section>
+
+  <footer>
+    <p>© 2025 SAE - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    // Carrossel simples
+    let slides = document.querySelectorAll('.slide');
+    let indice = 0;
+    setInterval(() => {
+      slides[indice].classList.remove('ativo');
+      indice = (indice + 1) % slides.length;
+      slides[indice].classList.add('ativo');
+    }, 4000);
+  </script>
+</body>
+</html>
