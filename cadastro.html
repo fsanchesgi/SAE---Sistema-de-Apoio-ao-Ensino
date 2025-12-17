@@ -23,24 +23,25 @@
 </form>
 <p>Já tem conta? <a href="login.html">Login</a></p>
 
-<!-- Script Supabase + Cliente + Cadastro tudo em um -->
+<!-- Script único: Supabase + cliente + cadastro -->
 <script>
-  // 1. Importa a biblioteca Supabase
+  // Carrega Supabase dinamicamente
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
   script.onload = () => {
-    // 2. Cria o cliente global assim que a biblioteca estiver pronta
-    window.supabaseClient = supabase.createClient(
+    // Cria o cliente Supabase assim que a biblioteca carregar
+    const supabaseClient = supabase.createClient(
       'https://vhwhjnghtmlrfieiwssi.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZod2hqbmdodG1scmZpZWl3c3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5OTM4OTUsImV4cCI6MjA4MTU2OTg5NX0.XV6vxBeRtIcDNEGsJuDU_wPcnm2qmK8ZoHEuHQR2TMU'
     );
 
-    console.log('SupabaseClient carregado com sucesso!');
+    console.log("SupabaseClient carregado com sucesso!");
 
-    // 3. Script do cadastro
+    // Cadastro
     const formCadastro = document.getElementById('formCadastro');
     formCadastro.addEventListener('submit', async (e) => {
       e.preventDefault();
+
       const nome = document.getElementById('nome').value.trim();
       const email = document.getElementById('email').value.trim();
       const senha = document.getElementById('senha').value.trim();
@@ -50,16 +51,23 @@
 
       try {
         // Criar usuário no Auth
-        const { data: signUpData, error: signUpError } = await window.supabaseClient.auth.signUp({ email, password: senha });
-        if (signUpError) { alert(signUpError.message); return; }
+        const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({ email, password: senha });
+        if (signUpError) { alert(signUpError.message); console.error(signUpError); return; }
 
-        // Criar perfil na tabela profiles
-        const { error: perfilError } = await window.supabaseClient.from('profiles').insert([{ id: signUpData.user.id, nome, role }]);
-        if (perfilError) { alert(perfilError.message); return; }
+        // Inserir perfil na tabela profiles
+        const { data: perfilData, error: perfilError } = await supabaseClient.from('profiles').insert([{
+          id: signUpData.user.id,
+          nome,
+          role
+        }]);
+        if (perfilError) { alert(perfilError.message); console.error(perfilError); return; }
 
+        console.log("Perfil inserido com sucesso:", perfilData);
         alert("Cadastro realizado com sucesso! Faça login agora.");
         window.location.href = 'login.html';
+
       } catch (err) {
+        console.error("Erro inesperado no cadastro:", err);
         alert("Erro inesperado: " + err.message);
       }
     });
