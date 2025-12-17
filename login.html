@@ -17,17 +17,19 @@
 
   <script src="script.js"></script>
   <script>
-    const formLogin = document.getElementById('formLogin');
-    formLogin.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const senha = document.getElementById('senha').value;
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
-      if (error) {
-        alert(error.message);
-      } else {
-        window.location.href = 'dashboard.html';
-      }
+    document.addEventListener("DOMContentLoaded", function() {
+      const formLogin = document.getElementById('formLogin');
+      formLogin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
+        if (error) {
+          alert(error.message);
+        } else {
+          window.location.href = 'dashboard.html';
+        }
+      });
     });
   </script>
 </body>
