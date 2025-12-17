@@ -19,15 +19,62 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const formLogin = document.getElementById('formLogin');
+
       formLogin.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
-        if (error) {
-          alert(error.message);
-        } else {
-          window.location.href = 'dashboard.html';
+
+        const email = document.getElementById('email').value.trim();
+        const senha = document.getElementById('senha').value.trim();
+
+        if (!email || !senha) {
+          alert("Preencha todos os campos");
+          return;
+        }
+
+        try {
+          // Login no Supabase
+          const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: senha
+          });
+
+          if (loginError) {
+            alert("Erro ao fazer login: " + loginError.message);
+            return;
+          }
+
+          // Pegar role do usuário na tabela profiles
+          const { data: perfilData, error: perfilError } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', loginData.user.id)
+            .single();
+
+          if (perfilError || !perfilData) {
+            alert("Erro ao carregar perfil: " + (perfilError ? perfilError.message : "Perfil não encontrado"));
+            return;
+          }
+
+          // Redirecionamento por role
+          switch (perfilData.role) {
+            case 'admin':
+              window.location.href = 'dashboard_admin.html';
+              break;
+            case 'professor':
+              window.location.href = 'dashboard_professor.html';
+              break;
+            case 'aluno':
+              window.location.href = 'dashboard_aluno.html';
+              break;
+            case 'pai':
+              window.location.href = 'dashboard_pai.html';
+              break;
+            default:
+              alert("Role desconhecida");
+          }
+
+        } catch (err) {
+          alert("Ocorreu um erro inesperado: " + err.message);
         }
       });
     });
