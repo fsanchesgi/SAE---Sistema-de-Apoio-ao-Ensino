@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function() {
       const { error: perfilError } = await supabase.from('profiles').insert([{ id: signUpData.user.id, nome, role }]);
       if (perfilError) { alert(perfilError.message); return; }
 
-      alert("Cadastro realizado com sucesso!");
+      alert("Cadastro realizado com sucesso! Faça login agora.");
       window.location.href = 'login.html';
     } catch (err) {
       alert("Erro inesperado: " + err.message);
