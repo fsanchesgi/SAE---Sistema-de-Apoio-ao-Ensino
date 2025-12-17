@@ -10,10 +10,10 @@ document.addEventListener("DOMContentLoaded", function() {
     if (!email || !senha) { alert("Preencha todos os campos"); return; }
 
     try {
-      const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({ email, password: senha });
+      const { data: loginData, error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password: senha });
       if (loginError) { alert(loginError.message); return; }
 
-      const { data: perfilData, error: perfilError } = await supabase
+      const { data: perfilData, error: perfilError } = await supabaseClient
         .from('profiles')
         .select('role')
         .eq('id', loginData.user.id)
