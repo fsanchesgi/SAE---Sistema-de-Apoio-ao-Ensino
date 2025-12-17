@@ -28,7 +28,6 @@
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
   script.onload = () => {
-    // Cria o cliente Supabase
     const supabaseClient = supabase.createClient(
       'https://vhwhjnghtmlrfieiwssi.supabase.co',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZod2hqbmdodG1scmZpZWl3c3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5OTM4OTUsImV4cCI6MjA4MTU2OTg5NX0.XV6vxBeRtIcDNEGsJuDU_wPcnm2qmK8ZoHEuHQR2TMU'
@@ -36,7 +35,6 @@
 
     console.log("SupabaseClient carregado com sucesso!");
 
-    // Cadastro
     const formCadastro = document.getElementById('formCadastro');
     formCadastro.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -53,6 +51,7 @@
 
       try {
         // 1️⃣ Criar usuário no Auth
+        console.log("Tentando criar usuário no Auth...");
         const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({
           email,
           password: senha
@@ -64,6 +63,8 @@
           return;
         }
 
+        console.log("Usuário Auth criado com sucesso:", signUpData.user);
+
         const userId = signUpData.user?.id;
         if (!userId) {
           alert("Erro: usuário não criado corretamente.");
@@ -71,6 +72,7 @@
         }
 
         // 2️⃣ Inserir perfil na tabela profiles
+        console.log("Tentando inserir perfil na tabela profiles...");
         const { data: perfilData, error: perfilError } = await supabaseClient.from('profiles').insert([{
           id: userId,
           nome,
