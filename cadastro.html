@@ -23,9 +23,48 @@
 </form>
 <p>Já tem conta? <a href="login.html">Login</a></p>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js" defer></script>
-<script src="supabase_client.js" defer></script>
-<script src="cadastro.js" defer></script>
+<!-- Script Supabase + Cliente + Cadastro tudo em um -->
+<script>
+  // 1. Importa a biblioteca Supabase
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
+  script.onload = () => {
+    // 2. Cria o cliente global assim que a biblioteca estiver pronta
+    window.supabaseClient = supabase.createClient(
+      'https://vhwhjnghtmlrfieiwssi.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZod2hqbmdodG1scmZpZWl3c3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU5OTM4OTUsImV4cCI6MjA4MTU2OTg5NX0.XV6vxBeRtIcDNEGsJuDU_wPcnm2qmK8ZoHEuHQR2TMU'
+    );
+
+    console.log('SupabaseClient carregado com sucesso!');
+
+    // 3. Script do cadastro
+    const formCadastro = document.getElementById('formCadastro');
+    formCadastro.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const senha = document.getElementById('senha').value.trim();
+      const role = document.getElementById('role').value;
+
+      if (!nome || !email || !senha || !role) { alert("Preencha todos os campos"); return; }
+
+      try {
+        // Criar usuário no Auth
+        const { data: signUpData, error: signUpError } = await window.supabaseClient.auth.signUp({ email, password: senha });
+        if (signUpError) { alert(signUpError.message); return; }
+
+        // Criar perfil na tabela profiles
+        const { error: perfilError } = await window.supabaseClient.from('profiles').insert([{ id: signUpData.user.id, nome, role }]);
+        if (perfilError) { alert(perfilError.message); return; }
+
+        alert("Cadastro realizado com sucesso! Faça login agora.");
+        window.location.href = 'login.html';
+      } catch (err) {
+        alert("Erro inesperado: " + err.message);
+      }
+    });
+  };
+  document.head.appendChild(script);
+</script>
 </body>
 </html>
