@@ -64,7 +64,7 @@ body {
 }
 
 /* =========================
-   HERO
+   HERO1
 ========================= */
 .hero {
   height: 100vh;
@@ -271,4 +271,55 @@ body {
 
 .features .card {
   min-height: auto;
+}
+
+/* VARIAÇÕES DE HERO POR PÁGINA */
+
+.hero-planos {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img5.png") center / cover no-repeat;
+}
+
+.hero-institucional {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img6.png") center / cover no-repeat;
+}
+
+.hero-contato {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img6.png") center / cover no-repeat;
+}
+
+.hero-login {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img7.png") center / cover no-repeat;
+}
+
+.hero-lgpd {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img8.png") center / cover no-repeat;
+}
+
+.hero-termo {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img9.png") center / cover no-repeat;
+}
+
+.hero-login {
+  background: linear-gradient(
+    rgba(0,0,0,0.55),
+    rgba(0,0,0,0.55)
+  ), url("images/img0.png") center / cover no-repeat;
 }
