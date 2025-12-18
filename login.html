@@ -5,7 +5,7 @@
 
   <!-- SEO Básico -->
   <title>Login | SAE - Sistema de Apoio ao Ensino</title>
-  <meta name="description" content="Acesse a plataforma SAE - Sistema de Apoio ao Ensino. Ambiente seguro para gestão educacional, acompanhamento pedagógico e administração escolar.">
+  <meta name="description" content="Acesse a plataforma SAE - Sistema de Apoio ao Ensino. Ambiente seguro para gestão educacional e acompanhamento pedagógico.">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Responsividade -->
@@ -20,23 +20,97 @@
 </head>
 <body>
 
-  <h1>Login - SAE</h1>
+<!-- HEADER PADRÃO -->
+<header class="header">
+  <div class="container-header">
+    <nav class="nav-left">
+      <a href="index.html">Início</a>
+      <a href="planos.html">Planos</a>
+      <a href="institucional.html">Institucional</a>
+    </nav>
+    <div class="nav-right">
+      <a href="index.html" class="btn-header">Voltar ao site</a>
+    </div>
+  </div>
+</header>
 
-  <form id="formLogin">
-    <input type="email" id="email" placeholder="E-mail" required>
-    <input type="password" id="senha" placeholder="Senha" required>
-    <button type="submit">Entrar</button>
-  </form>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-text">
+    <h1>Acesso à Plataforma</h1>
+    <p>
+      Ambiente seguro para gestão educacional, acompanhamento pedagógico
+      e administração escolar.
+    </p>
+  </div>
+</header>
 
-  <p>
-    Não tem conta?
-    <a href="cadastro.html">Cadastre-se</a>
-  </p>
+<!-- LOGIN -->
+<section class="features">
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-  <script src="supabase_client.js"></script>
-  <script src="login.js"></script>
+  <div class="card show" style="max-width: 420px; margin: 0 auto;">
+    <h3>Entrar no SAE</h3>
+    <p>
+      Informe seus dados de acesso para entrar na plataforma.
+    </p>
+
+    <form id="formLogin" class="contact-form">
+      <input type="email" id="email" placeholder="E-mail" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit" class="btn">Entrar</button>
+    </form>
+
+    <p style="margin-top: 15px; font-size: 0.95rem;">
+      Não tem conta?
+      <a href="cadastro.html">Cadastre-se</a>
+    </p>
+  </div>
+
+</section>
+
+<!-- FOOTER PADRÃO -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <div class="footer-brand">
+      <h3>SAE</h3>
+      <p>
+        Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar
+        e fortalecer o acompanhamento pedagógico.
+      </p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Institucional</h4>
+      <a href="institucional.html">Sobre o SAE</a>
+      <a href="planos.html">Planos</a>
+      <a href="contato.html">Contato</a>
+    </div>
+
+    <div class="footer-links">
+      <h4>Documentos</h4>
+      <a href="politica-privacidade.html">Política de Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>
+      © <span id="ano"></span> SAE – Sistema de Apoio ao Ensino.
+      Todos os direitos reservados.
+    </p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("ano").textContent = new Date().getFullYear();
+</script>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="supabase_client.js"></script>
+<script src="login.js"></script>
 
 </body>
 </html>
