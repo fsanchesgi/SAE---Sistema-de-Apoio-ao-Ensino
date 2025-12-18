@@ -6,91 +6,89 @@
 }
 
 body {
-  background: #f5f7fb;
+  background: #f5f7fa;
   color: #333;
 }
 
-.header {
+/* HERO */
+.hero {
+  height: 100vh;
+  background: linear-gradient(
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.5)
+  ), url("images/img1.jpg") center/cover no-repeat;
   display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  background: #1e88e5;
-  color: white;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
 }
 
-.header a {
-  color: white;
-  margin-left: 20px;
-  text-decoration: none;
+.hero-text h1 {
+  font-size: 4rem;
+}
+
+.hero-text p {
+  margin: 20px 0;
+  font-size: 1.2rem;
 }
 
 .btn {
-  background: #1565c0;
-  padding: 10px 18px;
-  border-radius: 6px;
+  background: #2563eb;
+  color: #fff;
+  padding: 15px 30px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
-.btn.destaque {
-  background: #43a047;
+.btn:hover {
+  background: #1e40af;
 }
 
-.hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 60px 40px;
-}
-
-.hero-text {
-  max-width: 45%;
-}
-
-.hero-text h2 {
-  font-size: 36px;
-  margin-bottom: 15px;
-}
-
-.hero-carousel {
-  width: 45%;
-  position: relative;
-}
-
-.hero-carousel img {
-  width: 100%;
-  border-radius: 12px;
-  display: none;
-}
-
-.hero-carousel img.active {
-  display: block;
-}
-
-.section {
-  padding: 60px 40px;
-  text-align: center;
-}
-
-.cards {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
+/* FEATURES */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 80px 10%;
 }
 
 .card {
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
-  width: 300px;
-  transition: transform 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-8px);
-}
-
-.footer {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
   text-align: center;
   padding: 20px;
-  background: #1e88e5;
-  color: white;
+  transform: translateY(30px);
+  opacity: 0;
+  transition: 0.6s;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.card h3 {
+  margin: 15px 0 10px;
+}
+
+.card.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* CTA */
+.cta {
+  background: #2563eb;
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.cta h2 {
+  margin-bottom: 20px;
 }
