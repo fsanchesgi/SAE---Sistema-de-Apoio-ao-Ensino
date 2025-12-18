@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+
+  <!-- SEO Básico -->
+  <title>Login | SAE - Sistema de Apoio ao Ensino</title>
+  <meta name="description" content="Acesse a plataforma SAE - Sistema de Apoio ao Ensino. Ambiente seguro para gestão educacional, acompanhamento pedagógico e administração escolar.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Responsividade -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - SAE</title>
+
+  <!-- Identidade -->
+  <meta name="author" content="SAE - Sistema de Apoio ao Ensino">
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
   <h1>Login - SAE</h1>
+
   <form id="formLogin">
-    <input type="email" id="email" placeholder="Email" required>
+    <input type="email" id="email" placeholder="E-mail" required>
     <input type="password" id="senha" placeholder="Senha" required>
     <button type="submit">Entrar</button>
   </form>
-  <p>Não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+
+  <p>
+    Não tem conta?
+    <a href="cadastro.html">Cadastre-se</a>
+  </p>
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
   <script src="supabase_client.js"></script>
   <script src="login.js"></script>
+
 </body>
 </html>
