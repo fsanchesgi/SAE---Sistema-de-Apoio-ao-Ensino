@@ -323,3 +323,17 @@ body {
     rgba(0,0,0,0.55)
   ), url("images/img9.png") center / cover no-repeat;
 }
+
+/* ANIMAÇÃO HERO FADE-IN */
+.hero {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInHero 1s ease forwards;
+}
+
+@keyframes fadeInHero {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
