@@ -51,33 +51,44 @@
 <!-- FOOTER PADRÃO -->
 <footer class="footer">
   <div class="footer-container">
+
     <div class="footer-brand">
       <h3>SAE</h3>
-      <p>Sistema de Apoio Educacional para gestão e desenvolvimento escolar.</p>
+      <p>
+        Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar,
+        fortalecer o acompanhamento pedagógico e apoiar decisões estratégicas
+        nas instituições de ensino.
+      </p>
     </div>
 
     <div class="footer-links">
       <h4>Institucional</h4>
-      <a href="institucional.html">Sobre</a>
+      <a href="institucional.html">Sobre o SAE</a>
       <a href="planos.html">Planos</a>
       <a href="contato.html">Contato</a>
     </div>
 
     <div class="footer-links">
-      <h4>Legal</h4>
+      <h4>Documentos</h4>
+      <a href="lgpd.html">LGPD e Segurança</a>
       <a href="politica-privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
     </div>
+
   </div>
 
   <div class="footer-bottom">
-    <p>© <span id="ano"></span> SAE – Todos os direitos reservados.</p>
+    <p>
+      © <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.  
+      Todos os direitos reservados.
+    </p>
   </div>
 </footer>
 
 <script>
-  document.getElementById("ano").textContent = new Date().getFullYear();
+  document.getElementById("ano-atual").textContent = new Date().getFullYear();
 </script>
+
 
 </body>
 </html>
