@@ -23,8 +23,11 @@
 </form>
 <p>Já tem conta? <a href="login.html">Login</a></p>
 
+<h2>Perfis cadastrados:</h2>
+<ul id="listaPerfis"></ul>
+
 <script>
-  // Carrega a biblioteca Supabase dinamicamente
+  // Carrega Supabase dinamicamente
   const script = document.createElement('script');
   script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js';
   script.onload = () => {
@@ -36,6 +39,26 @@
     console.log("SupabaseClient carregado com sucesso!");
 
     const formCadastro = document.getElementById('formCadastro');
+    const listaPerfis = document.getElementById('listaPerfis');
+
+    // Função para listar perfis
+    async function listarPerfis() {
+      const { data, error } = await supabaseClient.from('profiles').select('*');
+      if (error) {
+        console.error("Erro ao buscar perfis:", error);
+        return;
+      }
+      listaPerfis.innerHTML = '';
+      data.forEach(perfil => {
+        const li = document.createElement('li');
+        li.textContent = `${perfil.nome} (${perfil.role}) - ID: ${perfil.id}`;
+        listaPerfis.appendChild(li);
+      });
+    }
+
+    // Carrega perfis ao abrir a página
+    listarPerfis();
+
     formCadastro.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -50,7 +73,6 @@
       }
 
       try {
-        // 1️⃣ Criar usuário no Auth
         console.log("Tentando criar usuário no Auth...");
         const { data: signUpData, error: signUpError } = await supabaseClient.auth.signUp({
           email,
@@ -64,15 +86,9 @@
         }
 
         console.log("Usuário Auth criado com sucesso:", signUpData.user);
+        const userId = signUpData.user.id;
 
-        const userId = signUpData.user?.id;
-        if (!userId) {
-          alert("Erro: usuário não criado corretamente.");
-          return;
-        }
-
-        // 2️⃣ Inserir perfil na tabela profiles
-        console.log("Tentando inserir perfil na tabela profiles...");
+        console.log("Tentando inserir perfil no banco...");
         const { data: perfilData, error: perfilError } = await supabaseClient.from('profiles').insert([{
           id: userId,
           nome,
@@ -87,7 +103,12 @@
 
         console.log("Perfil inserido com sucesso:", perfilData);
         alert("Cadastro realizado com sucesso! Faça login agora.");
-        window.location.href = 'login.html';
+
+        // Atualiza lista de perfis na página
+        listarPerfis();
+
+        // Redireciona para login
+        // window.location.href = 'login.html';
 
       } catch (err) {
         console.error("Erro inesperado no cadastro:", err);
