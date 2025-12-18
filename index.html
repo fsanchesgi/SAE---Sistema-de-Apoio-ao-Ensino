@@ -1,63 +1,44 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>SAE - Sistema de Apoio ao Ensino</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<header class="header">
-  <h1>SAE</h1>
-  <nav>
-    <a href="#sobre">Sobre</a>
-    <a href="#beneficios">Benefícios</a>
-    <a href="login.html" class="btn">Entrar</a>
-  </nav>
+<header class="hero">
+  <div class="hero-text">
+    <h1>SAE</h1>
+    <p>Sistema de Apoio ao Ensino para escolas do ensino fundamental</p>
+    <a href="login.html" class="btn">Acessar plataforma</a>
+  </div>
 </header>
 
-<section class="hero">
-  <div class="hero-text">
-    <h2>Sistema de Apoio ao Ensino</h2>
-    <p>Uma plataforma completa para escolas, professores, alunos e pais acompanharem o aprendizado em um só lugar.</p>
-    <a href="cadastro.html" class="btn destaque">Começar agora</a>
+<section class="features">
+  <div class="card">
+    <img src="images/img2.jpg" alt="Materiais escolares">
+    <h3>Conteúdo por trimestre</h3>
+    <p>Aulas organizadas em módulos com avaliações ao final.</p>
   </div>
 
-  <div class="hero-carousel">
-    <img src="img1.jpg" class="active">
-    <img src="img2.jpg">
-    <img src="img3.jpg">
+  <div class="card">
+    <img src="images/img3.jpg" alt="Alunos em sala">
+    <h3>Acompanhamento completo</h3>
+    <p>Professores, alunos e pais com acessos personalizados.</p>
+  </div>
+
+  <div class="card">
+    <img src="images/img1.jpg" alt="Sala de aula">
+    <h3>Gestão escolar</h3>
+    <p>Administre turmas, professores e desempenho acadêmico.</p>
   </div>
 </section>
 
-<section id="sobre" class="section">
-  <h2>O que é o SAE?</h2>
-  <p>
-    O SAE é um sistema educacional desenvolvido para apoiar o ensino fundamental,
-    organizando aulas, turmas, avaliações e acompanhamento escolar de forma simples,
-    segura e eficiente.
-  </p>
+<section class="cta">
+  <h2>Educação organizada, simples e eficiente</h2>
+  <a href="cadastro.html" class="btn">Criar conta</a>
 </section>
-
-<section id="beneficios" class="section cards">
-  <div class="card">
-    <h3>Para Escolas</h3>
-    <p>Gestão de turmas, professores, alunos e avaliações em um único sistema.</p>
-  </div>
-  <div class="card">
-    <h3>Para Professores</h3>
-    <p>Controle de notas, relatórios em Excel e acompanhamento do desempenho.</p>
-  </div>
-  <div class="card">
-    <h3>Para Pais e Alunos</h3>
-    <p>Transparência total no acompanhamento das notas e evolução escolar.</p>
-  </div>
-</section>
-
-<footer class="footer">
-  <p>© 2025 SAE - Sistema de Apoio ao Ensino</p>
-</footer>
 
 <script src="script.js"></script>
 </body>
