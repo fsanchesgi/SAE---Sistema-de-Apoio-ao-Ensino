@@ -300,7 +300,7 @@ body {
   background: linear-gradient(
     rgba(0,0,0,0.55),
     rgba(0,0,0,0.55)
-  ), url("images/img01.png") center / cover no-repeat;
+  ), url("images/img0.png") center / cover no-repeat;
 }
 
 .hero-lgpd {
@@ -314,7 +314,7 @@ body {
   background: linear-gradient(
     rgba(0,0,0,0.55),
     rgba(0,0,0,0.55)
-  ), url("images/img0.png") center / cover no-repeat;
+  ), url("images/img01.png") center / cover no-repeat;
 }
 
 .hero-politica {
