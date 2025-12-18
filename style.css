@@ -10,7 +10,62 @@ body {
   color: #333;
 }
 
-/* HERO */
+/* =========================
+   HEADER TRANSPARENTE
+========================= */
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.container-header {
+  max-width: 1200px;
+  margin: auto;
+  padding: 18px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* MENU ESQUERDO */
+.nav-left {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-left a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.nav-left a:hover {
+  color: #93c5fd;
+}
+
+/* BOTÃO DIREITO */
+.btn-header {
+  background: #2563eb;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.btn-header:hover {
+  background: #1e40af;
+}
+
+/* =========================
+   HERO
+========================= */
 .hero {
   height: 100vh;
   background: linear-gradient(
@@ -46,7 +101,9 @@ body {
   background: #1e40af;
 }
 
-/* FEATURES */
+/* =========================
+   FEATURES
+========================= */
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -81,7 +138,9 @@ body {
   opacity: 1;
 }
 
-/* CTA */
+/* =========================
+   CTA
+========================= */
 .cta {
   background: #2563eb;
   color: #fff;
@@ -91,4 +150,21 @@ body {
 
 .cta h2 {
   margin-bottom: 20px;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 768px) {
+  .container-header {
+    padding: 15px 20px;
+  }
+
+  .nav-left {
+    gap: 15px;
+  }
+
+  .hero-text h1 {
+    font-size: 2.8rem;
+  }
 }
