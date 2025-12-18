@@ -109,6 +109,7 @@
 
     <div class="footer-links">
       <h4>Documentos</h4>
+      <a href="lgpd.html">LGPD e Segurança</a>
       <a href="politica-privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
     </div>
@@ -117,11 +118,15 @@
 
   <div class="footer-bottom">
     <p>
-      © <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.
+      © <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.  
       Todos os direitos reservados.
     </p>
   </div>
 </footer>
+
+<script>
+  document.getElementById("ano-atual").textContent = new Date().getFullYear();
+</script>
 
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
