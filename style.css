@@ -1,58 +1,96 @@
-body {
-  font-family: Arial, sans-serif;
+* {
   margin: 0;
-  padding: 20px;
-  background-color: #f5f5f5;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-header, footer {
-  background-color: #004aad;
-  color: white;
-  padding: 10px;
-  text-align: center;
+body {
+  background: #f5f7fb;
+  color: #333;
 }
 
-nav a {
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: #1e88e5;
   color: white;
-  margin: 0 10px;
+}
+
+.header a {
+  color: white;
+  margin-left: 20px;
   text-decoration: none;
 }
 
-h1 {
+.btn {
+  background: #1565c0;
+  padding: 10px 18px;
+  border-radius: 6px;
+}
+
+.btn.destaque {
+  background: #43a047;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 40px;
+}
+
+.hero-text {
+  max-width: 45%;
+}
+
+.hero-text h2 {
+  font-size: 36px;
+  margin-bottom: 15px;
+}
+
+.hero-carousel {
+  width: 45%;
+  position: relative;
+}
+
+.hero-carousel img {
+  width: 100%;
+  border-radius: 12px;
+  display: none;
+}
+
+.hero-carousel img.active {
+  display: block;
+}
+
+.section {
+  padding: 60px 40px;
   text-align: center;
 }
 
-form {
-  max-width: 400px;
-  margin: auto;
+.cards {
   display: flex;
-  flex-direction: column;
-}
-
-input, select, button {
-  margin: 10px 0;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.carrossel {
-  max-width: 600px;
-  margin: 20px auto;
-  height: 150px;
-  position: relative;
-  overflow: hidden;
-  background-color: #ddd;
-  display: flex;
-  align-items: center;
+  gap: 20px;
   justify-content: center;
 }
 
-.slide {
-  position: absolute;
-  opacity: 0;
-  transition: opacity 1s;
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  width: 300px;
+  transition: transform 0.3s;
 }
 
-.slide.ativo {
-  opacity: 1;
+.card:hover {
+  transform: translateY(-8px);
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #1e88e5;
+  color: white;
 }
