@@ -225,3 +225,41 @@ body {
   font-size: 0.85rem;
   color: #94a3b8;
 }
+
+/* FORMULÁRIO CONTATO - AJUSTE DE ESPAÇAMENTO */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* espaçamento entre os campos */
+  margin-top: 20px;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact-form button {
+  margin-top: 10px;
+  align-self: flex-start;
+}
