@@ -263,3 +263,12 @@ body {
   margin-top: 10px;
   align-self: flex-start;
 }
+
+
+.features .card p {
+  line-height: 1.6;
+}
+
+.features .card {
+  min-height: auto;
+}
