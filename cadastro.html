@@ -44,11 +44,11 @@
     // Conexão com Supabase
     const supabaseUrl = 'https://uqwbduinwugaqexsvkxc.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsImtpZCI6ImJDb3JXVmV2dnNGb3RpS2kiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3Vxd2JkdWlud3VnYXFleHN2a3hjLnN1cGFiYXNlLmNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5OTk5OTksImV4cCI6MTk5OTk5OTk5OX0.xxxxx'; // sua anon public key
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const clientSupabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     // Carregar instituições
     async function carregarInstituicoes() {
-        const { data, error } = await supabase.from('instituicoes').select('id, nome').order('nome');
+        const { data, error } = await clientSupabase.from('instituicoes').select('id, nome').order('nome');
         const select = document.getElementById('instituicao');
         select.innerHTML = '<option value="">Selecione</option>';
         if (error) {
@@ -81,7 +81,7 @@
 
         try {
             // Criar usuário no Auth
-            const { data: userData, error: signUpError } = await supabase.auth.signUp({
+            const { data: userData, error: signUpError } = await clientSupabase.auth.signUp({
                 email: email,
                 password: Math.random().toString(36).slice(-8) // senha aleatória temporária
             });
@@ -94,7 +94,7 @@
             const userId = userData.user.id;
 
             // Inserir no profiles
-            const { error: profileError } = await supabase.from('profiles').insert([{
+            const { error: profileError } = await clientSupabase.from('profiles').insert([{
                 id: userId,
                 nome: nome,
                 role: role
@@ -111,20 +111,20 @@
             switch(role) {
                 case 'aluno':
                     tabela = 'alunos';
-                    insertData.turma_id = null; // pode ser ajustado depois
+                    insertData.turma_id = null;
                     break;
                 case 'professor':
                     tabela = 'professores';
-                    insertData.turma_id = null; // pode ser ajustado depois
+                    insertData.turma_id = null;
                     break;
                 case 'pai':
                     tabela = 'pais';
-                    insertData.aluno_id = null; // precisa ser vinculado posteriormente
+                    insertData.aluno_id = null;
                     break;
             }
 
             if (tabela) {
-                const { error: roleError } = await supabase.from(tabela).insert([insertData]);
+                const { error: roleError } = await clientSupabase.from(tabela).insert([insertData]);
                 if (roleError) {
                     alert('Erro ao vincular ' + role + ': ' + roleError.message);
                     return;
