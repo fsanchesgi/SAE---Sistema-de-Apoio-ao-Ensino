@@ -2,50 +2,89 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Política de Privacidade | SAE</title>
+  <title>Política de Privacidade | SAE - Sistema de Apoio ao Ensino</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="page-header">
-  <h1>Política de Privacidade</h1>
+<!-- HEADER PADRÃO -->
+<header class="header">
+  <div class="container-header">
+    <nav class="nav-left">
+      <a href="index.html">Início</a>
+      <a href="planos.html">Planos</a>
+      <a href="institucional.html">Institucional</a>
+    </nav>
+    <div class="nav-right">
+      <a href="login.html" class="btn-header">Acessar</a>
+    </div>
+  </div>
 </header>
 
-<section class="page-content">
-  <p>
-    O <strong>SAE – Sistema de Apoio Educacional</strong> respeita a privacidade
-    e a proteção dos dados pessoais de todos os usuários.
-  </p>
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-text">
+    <h1>Política de Privacidade</h1>
+    <p>
+      Transparência e compromisso com a proteção dos dados das instituições
+      e usuários do SAE.
+    </p>
+  </div>
+</header>
 
-  <h2>Coleta de dados</h2>
-  <p>
-    Coletamos apenas os dados necessários para o funcionamento da plataforma,
-    incluindo informações cadastrais, acadêmicas e institucionais.
-  </p>
+<!-- CONTEÚDO -->
+<section class="features">
 
-  <h2>Uso das informações</h2>
-  <p>
-    Os dados são utilizados exclusivamente para fins educacionais,
-    administrativos, operacionais e de melhoria contínua dos serviços.
-  </p>
+  <div class="card show">
+    <h3>Compromisso com a privacidade</h3>
+    <p>
+      O <strong>SAE – Sistema de Apoio Educacional</strong> respeita a privacidade
+      e a proteção dos dados pessoais de seus usuários, em conformidade com a
+      legislação vigente.
+    </p>
+  </div>
 
-  <h2>Compartilhamento</h2>
-  <p>
-    O SAE não vende ou comercializa dados pessoais. O compartilhamento ocorre
-    apenas quando necessário para cumprimento de obrigações legais ou técnicas.
-  </p>
+  <div class="card show">
+    <h3>Coleta de dados</h3>
+    <p>
+      Coletamos apenas os dados necessários para o funcionamento da plataforma,
+      incluindo informações cadastrais, acadêmicas e institucionais.
+    </p>
+  </div>
 
-  <h2>Segurança</h2>
-  <p>
-    Adotamos medidas técnicas e organizacionais para proteger os dados contra
-    acessos não autorizados, vazamentos ou perdas.
-  </p>
+  <div class="card show">
+    <h3>Uso das informações</h3>
+    <p>
+      As informações são utilizadas exclusivamente para fins educacionais,
+      administrativos, operacionais e para a melhoria contínua dos serviços.
+    </p>
+  </div>
 
-  <h2>Alterações</h2>
-  <p>
-    Esta política pode ser atualizada a qualquer momento. Recomendamos
-    a revisão periódica deste documento.
-  </p>
+  <div class="card show">
+    <h3>Compartilhamento de dados</h3>
+    <p>
+      O SAE não vende ou comercializa dados pessoais. O compartilhamento ocorre
+      apenas quando necessário para cumprimento de obrigações legais ou técnicas.
+    </p>
+  </div>
+
+  <div class="card show">
+    <h3>Segurança da informação</h3>
+    <p>
+      Adotamos medidas técnicas e organizacionais para proteger os dados contra
+      acessos não autorizados, vazamentos, perdas ou alterações indevidas.
+    </p>
+  </div>
+
+  <div class="card show">
+    <h3>Atualizações desta política</h3>
+    <p>
+      Esta Política de Privacidade pode ser atualizada a qualquer momento.
+      Recomendamos a revisão periódica deste documento.
+    </p>
+  </div>
+
 </section>
 
 <!-- FOOTER PADRÃO -->
@@ -70,7 +109,6 @@
 
     <div class="footer-links">
       <h4>Documentos</h4>
-      <a href="lgpd.html">LGPD e Segurança</a>
       <a href="politica-privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
     </div>
@@ -79,7 +117,7 @@
 
   <div class="footer-bottom">
     <p>
-      © <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.  
+      © <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.
       Todos os direitos reservados.
     </p>
   </div>
@@ -88,7 +126,6 @@
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
 </script>
-
 
 </body>
 </html>
