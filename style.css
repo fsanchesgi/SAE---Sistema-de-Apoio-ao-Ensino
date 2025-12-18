@@ -314,12 +314,12 @@ body {
   background: linear-gradient(
     rgba(0,0,0,0.55),
     rgba(0,0,0,0.55)
-  ), url("images/img9.png") center / cover no-repeat;
+  ), url("images/img0.png") center / cover no-repeat;
 }
 
-.hero-login {
+.hero-politica {
   background: linear-gradient(
     rgba(0,0,0,0.55),
     rgba(0,0,0,0.55)
-  ), url("images/img0.png") center / cover no-repeat;
+  ), url("images/img9.png") center / cover no-repeat;
 }
