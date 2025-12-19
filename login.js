@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("formLogin");
 
-  if (!window.supabaseClient) {
-    alert("Erro: Supabase não inicializado.");
-    return;
-  }
-
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // ✅ Validação correta: somente ao clicar
+    if (!window.supabaseClient) {
+      alert("Erro: Supabase não inicializado.");
+      return;
+    }
 
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
@@ -20,19 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
         password: senha
       });
 
-    console.log("📦 Resposta:", data, error);
-
     if (error) {
       alert("Erro ao entrar: " + error.message);
       return;
     }
 
     if (!data.session) {
-      alert("Login sem sessão ativa.");
+      alert("Login realizado, mas sessão não iniciada.");
       return;
     }
 
-    console.log("✅ Login OK, redirecionando...");
+    console.log("✅ Login OK");
     window.location.href = "dashboard-admin.html";
   });
 });
