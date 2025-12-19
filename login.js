@@ -1,36 +1,42 @@
-document.addEventListener("DOMContentLoaded", function() {
-  const formLogin = document.getElementById('formLogin');
+const formLogin = document.getElementById("formLogin");
 
-  formLogin.addEventListener('submit', async (e) => {
-    e.preventDefault();
+formLogin.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value.trim();
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
 
-    if (!email || !senha) { alert("Preencha todos os campos"); return; }
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: senha,
+    });
 
-    try {
-      const { data: loginData, error: loginError } = await supabaseClient.auth.signInWithPassword({ email, password: senha });
-      if (loginError) { alert(loginError.message); return; }
-
-      const { data: perfilData, error: perfilError } = await supabaseClient
-        .from('profiles')
-        .select('role')
-        .eq('id', loginData.user.id)
-        .single();
-
-      if (perfilError || !perfilData) { alert("Erro ao carregar perfil"); return; }
-
-      // Redireciona conforme role
-      switch (perfilData.role) {
-        case 'admin': window.location.href = 'dashboard_admin.html'; break;
-        case 'professor': window.location.href = 'dashboard_professor.html'; break;
-        case 'aluno': window.location.href = 'dashboard_aluno.html'; break;
-        case 'pai': window.location.href = 'dashboard_pai.html'; break;
-        default: alert("Perfil desconhecido");
-      }
-    } catch (err) {
-      alert("Erro inesperado: " + err.message);
+    if (error) {
+      alert("Erro ao logar: " + error.message);
+      return;
     }
-  });
+
+    // Verificar role na tabela profiles
+    const { data: perfil, error: perfilError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", data.user.id)
+      .single();
+
+    if (perfilError) {
+      alert("Erro ao verificar perfil: " + perfilError.message);
+      return;
+    }
+
+    if (perfil.role === "admin") {
+      window.location.href = "dashboard.html"; // redireciona admin
+    } else {
+      window.location.href = "index.html"; // outros usuários
+    }
+
+  } catch (err) {
+    console.error(err);
+    alert("Erro inesperado: " + err.message);
+  }
 });
