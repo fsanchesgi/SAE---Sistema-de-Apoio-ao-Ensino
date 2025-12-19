@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email,
       password: senha
     });
