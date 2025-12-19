@@ -1,42 +1,54 @@
-const formLogin = document.getElementById("formLogin");
+// login.js
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("formLogin");
 
-formLogin.addEventListener("submit", async (e) => {
-  e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
 
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: senha,
-    });
+    try {
+      // Autenticação com Supabase
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: senha
+      });
 
-    if (error) {
-      alert("Erro ao logar: " + error.message);
-      return;
+      if (error) {
+        alert("Erro ao efetuar login: " + error.message);
+        return;
+      }
+
+      if (data.session) {
+        // Login bem-sucedido, redirecionar conforme perfil
+        const user = data.user;
+
+        // Aqui você pode verificar o perfil no Supabase
+        // Exemplo: tabela "profiles" com campo "role"
+        const { data: profileData, error: profileError } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", user.id)
+          .single();
+
+        if (profileError) {
+          alert("Erro ao obter perfil: " + profileError.message);
+          return;
+        }
+
+        const role = profileData.role;
+
+        if (role === "admin") {
+          window.location.href = "dashboard-admin.html";
+        } else {
+          window.location.href = "dashboard-usuario.html";
+        }
+      }
+
+    } catch (err) {
+      console.error("Erro inesperado:", err);
+      alert("Erro inesperado ao tentar logar. Tente novamente.");
     }
-
-    // Verificar role na tabela profiles
-    const { data: perfil, error: perfilError } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", data.user.id)
-      .single();
-
-    if (perfilError) {
-      alert("Erro ao verificar perfil: " + perfilError.message);
-      return;
-    }
-
-    if (perfil.role === "admin") {
-      window.location.href = "dashboard.html"; // redireciona admin
-    } else {
-      window.location.href = "index.html"; // outros usuários
-    }
-
-  } catch (err) {
-    console.error(err);
-    alert("Erro inesperado: " + err.message);
-  }
+  });
 });
