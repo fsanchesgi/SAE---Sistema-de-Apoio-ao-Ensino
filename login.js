@@ -1,42 +1,99 @@
-const formLogin = document.getElementById("formLogin");
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - SAE | Sistema de Apoio ao Ensino</title>
+  <meta name="description" content="Acesse sua conta no SAE e gerencie turmas, alunos e desempenho escolar de forma organizada e intuitiva.">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-formLogin.addEventListener("submit", async (e) => {
-  e.preventDefault();
+<!-- HEADER PADRÃO -->
+<header class="header">
+  <div class="container-header">
+    <nav class="nav-left">
+      <a href="index.html">Início</a>
+      <a href="planos.html">Planos</a>
+      <a href="institucional.html">Institucional</a>
+    </nav>
+    <div class="nav-right">
+      <a href="login.html" class="btn-header">Acessar</a>
+    </div>
+  </div>
+</header>
 
-  const email = document.getElementById("email").value;
-  const senha = document.getElementById("senha").value;
+<!-- HERO LOGIN -->
+<header class="hero hero-login">
+  <div class="hero-text">
+    <h1>Login SAE</h1>
+    <p>Acesse sua conta para gerenciar turmas, alunos e desempenho escolar com eficiência.</p>
+  </div>
+</header>
 
-  try {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: senha,
+<!-- FORMULÁRIO LOGIN -->
+<section class="features">
+  <div class="card show">
+    <h2>Entrar na plataforma</h2>
+    <p>Insira suas credenciais para acessar o SAE.</p>
+    <form id="formLogin" class="contact-form">
+      <input type="email" id="email" placeholder="Email institucional" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit" class="btn">Entrar</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER PADRÃO -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>SAE</h3>
+      <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar, fortalecer o acompanhamento pedagógico e apoiar decisões estratégicas nas instituições de ensino.</p>
+    </div>
+
+    <div class="footer-links">
+      <h4>Institucional</h4>
+      <a href="institucional.html">Sobre o SAE</a>
+      <a href="planos.html">Planos</a>
+      <a href="contato.html">Contato</a>
+    </div>
+
+    <div class="footer-links">
+      <h4>Documentos</h4>
+      <a href="lgpd.html">LGPD e Segurança</a>
+      <a href="politica-privacidade.html">Política de Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script src="supabase_client.js"></script>
+<script src="login.js"></script>
+
+<script>
+  // Atualiza o ano automaticamente
+  document.getElementById("ano-atual").textContent = new Date().getFullYear();
+
+  // Animação leve fade-in para cards
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
     });
+  }, {threshold: 0.2});
 
-    if (error) {
-      alert("Erro ao logar: " + error.message);
-      return;
-    }
+  cards.forEach(card => observer.observe(card));
+</script>
 
-    // Verificar role na tabela profiles
-    const { data: perfil, error: perfilError } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", data.user.id)
-      .single();
-
-    if (perfilError) {
-      alert("Erro ao verificar perfil: " + perfilError.message);
-      return;
-    }
-
-    if (perfil.role === "admin") {
-      window.location.href = "dashboard.html"; // redireciona admin
-    } else {
-      window.location.href = "index.html"; // outros usuários
-    }
-
-  } catch (err) {
-    console.error(err);
-    alert("Erro inesperado: " + err.message);
-  }
-});
+</body>
+</html>
