@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Planos - SAE | Gestão Escolar Simplificada</title>
-  <meta name="description" content="Confira os planos do SAE e descubra como otimizar a gestão escolar da sua instituição de ensino.">
+  <title>Planos - SAE</title>
+  <meta name="description" content="Conheça os planos do SAE. Escolha o melhor pacote para sua escola com gestão escolar completa, acompanhamento pedagógico e suporte especializado.">
   <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/logo.png">
@@ -31,28 +31,67 @@
 <header class="hero hero-planos">
   <div class="hero-text">
     <h1>Planos SAE</h1>
-    <p>Escolha o plano ideal para sua instituição de ensino e tenha uma gestão escolar completa e intuitiva.</p>
+    <p>Escolha o pacote ideal para sua instituição de ensino, com gestão pedagógica completa, acompanhamento de desempenho e suporte especializado.</p>
   </div>
 </header>
 
+<!-- PLANOS -->
 <section class="features">
-  <div class="card">
-    <h3>Plano Gratuito</h3>
-    <p>Acesso básico para pequenas instituições com recursos essenciais para gestão pedagógica.</p>
+
+  <!-- PLANO ESSENCIAL -->
+  <div class="card show">
+    <h3>Plano Essencial</h3>
+    <p><strong>Para escolas de pequeno porte</strong></p>
+    <p style="font-size: 2rem; margin: 20px 0; color:#2563eb;">
+      R$ 399/mês
+    </p>
+    <p>
+      • Gestão de turmas e professores<br>
+      • Organização de conteúdos por trimestre<br>
+      • Acompanhamento de alunos<br>
+      • Acesso para gestores e docentes<br>
+      • Suporte padrão
+    </p>
   </div>
-  <div class="card">
+
+  <!-- PLANO PROFISSIONAL -->
+  <div class="card show">
     <h3>Plano Profissional</h3>
-    <p>Recursos avançados para acompanhar desempenho de alunos, turmas e professores.</p>
+    <p><strong>Para escolas em crescimento</strong></p>
+    <p style="font-size: 2rem; margin: 20px 0; color:#2563eb;">
+      R$ 899/mês
+    </p>
+    <p>
+      • Todas as funcionalidades do Essencial<br>
+      • Relatórios acadêmicos avançados<br>
+      • Acesso para responsáveis<br>
+      • Dashboards de desempenho<br>
+      • Suporte prioritário
+    </p>
   </div>
-  <div class="card">
-    <h3>Plano Premium</h3>
-    <p>Gestão completa, suporte prioritário e relatórios detalhados para decisões estratégicas.</p>
+
+  <!-- PLANO REDE -->
+  <div class="card show">
+    <h3>Plano Rede</h3>
+    <p><strong>Para grupos e redes de ensino</strong></p>
+    <p style="font-size: 1.5rem; margin: 20px 0; color:#2563eb;">
+      Sob consulta
+    </p>
+    <p>
+      • Gestão multi-unidade<br>
+      • Padronização pedagógica<br>
+      • Relatórios consolidados por escola<br>
+      • Integrações personalizadas<br>
+      • Suporte dedicado e SLA<br>
+      • Contrato anual
+    </p>
   </div>
+
 </section>
 
 <section class="cta">
-  <h2>Quer experimentar o SAE?</h2>
-  <p>Solicite uma demonstração gratuita e veja como podemos transformar a gestão escolar da sua instituição.</p>
+  <h2>Escolha o plano ideal e transforme sua gestão escolar</h2>
+  <p>Com o SAE, sua escola terá organização pedagógica, acompanhamento eficiente e resultados visíveis.</p>
 </section>
 
 <footer class="footer">
@@ -81,6 +120,18 @@
 
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
+
+  // Animação leve fade-in para cards
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+    });
+  }, {threshold: 0.2});
+
+  cards.forEach(card => observer.observe(card));
 </script>
 
 </body>
