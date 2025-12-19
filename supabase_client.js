@@ -8,7 +8,7 @@ if (!window.supabase) {
   console.error("❌ Supabase CDN não carregou.");
 } else {
   // ✅ cria o client de forma segura
-  window.supabaseClient = window.supabase.createClient(
+  window.supabase = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_ANON_KEY
   );
