@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     // ✅ Validação correta: somente ao clicar
-    if (!window.supabaseClient) {
+    if (!window.supabase) {
       alert("Erro: Supabase não inicializado.");
       return;
     }
