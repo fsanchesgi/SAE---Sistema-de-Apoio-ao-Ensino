@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>SAE - Sistema de Apoio ao Ensino | Gestão Escolar Simplificada</title>
-<meta name="description" content="SAE é o Sistema de Apoio ao Ensino para escolas do ensino fundamental. Organize turmas, acompanhe desempenho e facilite a gestão pedagógica.">
-<meta name="robots" content="index, follow">
+  <meta name="description" content="SAE é o Sistema de Apoio ao Ensino para escolas do ensino fundamental. Organize turmas, acompanhe desempenho e facilite a gestão pedagógica.">
+  <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<!-- HEADER PADRÃO -->
 <header class="header">
   <div class="container-header">
     <nav class="nav-left">
@@ -22,61 +23,62 @@
   </div>
 </header>
 
-<header class="hero" id="inicio">
+<!-- HERO COMERCIAL -->
+<header class="hero hero-index">
   <div class="hero-text">
-    <h1>SAE</h1>
-    <p>
-      O <strong>Sistema de Apoio ao Ensino (SAE)</strong> é uma plataforma educacional
-      desenvolvida para apoiar escolas do ensino fundamental na organização pedagógica,
-      gestão acadêmica e acompanhamento do desempenho dos alunos.
-    </p>
-    <p>
-      Com foco em eficiência, clareza e integração, o SAE conecta
-      <strong>gestores, professores, alunos e responsáveis</strong>
-      em um único ambiente digital seguro e intuitivo.
-    </p>
+    <h1>Transforme a gestão pedagógica da sua escola</h1>
+    <p>O <strong>Sistema de Apoio ao Ensino (SAE)</strong> conecta gestores, professores, alunos e responsáveis em uma plataforma intuitiva, segura e completa.</p>
+    <p>Organize turmas, acompanhe desempenho e fortaleça a aprendizagem com tecnologia e eficiência.</p>
+    <a href="contato.html" class="btn">Solicitar demonstração</a>
   </div>
 </header>
 
+<!-- FEATURES / CARDS -->
 <section class="features">
-  <div class="card">
+  <div class="card show">
     <img src="images/img2.png" alt="Materiais escolares">
     <h3>Organização pedagógica</h3>
     <p>Conteúdos estruturados por trimestre com avaliações integradas.</p>
   </div>
 
-  <div class="card">
+  <div class="card show">
     <img src="images/img3.png" alt="Alunos em sala">
     <h3>Acompanhamento educacional</h3>
-    <p>Monitoramento de desempenho, frequência e evolução dos alunos.</p>
+    <p>Monitoramento de desempenho, frequência e evolução dos alunos em tempo real.</p>
   </div>
 
-  <div class="card">
+  <div class="card show">
     <img src="images/img4.png" alt="Sala de aula">
     <h3>Gestão escolar integrada</h3>
-    <p>Administração completa de turmas, professores e relatórios.</p>
+    <p>Administração completa de turmas, professores, relatórios e indicadores pedagógicos.</p>
   </div>
 </section>
 
-<section class="cta" id="institucional">
+<!-- CTA COMERCIAL -->
+<section class="cta">
   <h2>Educação com método, tecnologia e propósito</h2>
-  <p>
-    O SAE apoia instituições de ensino que buscam excelência acadêmica,
-    padronização de processos e gestão educacional moderna.
-  </p>
+  <p>Assuma o controle da gestão educacional e ofereça a melhor experiência de aprendizagem para sua instituição.</p>
+  <a href="contato.html" class="btn">Solicitar proposta</a>
 </section>
 
-<!-- FOOTER COMERCIAL -->
+<!-- PROVA SOCIAL -->
+<section class="features">
+  <div class="card show">
+    <h3>Mais de 500 escolas satisfeitas</h3>
+    <p>O SAE está presente em instituições de ensino de todo o país, garantindo eficiência e resultados.</p>
+  </div>
+  <div class="card show">
+    <h3>Depoimentos de gestores</h3>
+    <p>"O SAE transformou a gestão da nossa escola, tornando o acompanhamento dos alunos muito mais eficiente." - Direção Escola ABC</p>
+  </div>
+</section>
+
+<!-- FOOTER PADRÃO COMERCIAL -->
 <footer class="footer">
   <div class="footer-container">
-
     <div class="footer-brand">
       <h3>SAE</h3>
-      <p>
-        Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar,
-        fortalecer o acompanhamento pedagógico e apoiar decisões estratégicas
-        nas instituições de ensino.
-      </p>
+      <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar, fortalecer o acompanhamento pedagógico e apoiar decisões estratégicas nas instituições de ensino.</p>
     </div>
 
     <div class="footer-links">
@@ -92,14 +94,10 @@
       <a href="politica-privacidade.html">Política de Privacidade</a>
       <a href="termos.html">Termos de Uso</a>
     </div>
-
   </div>
 
   <div class="footer-bottom">
-    <p>
-      © <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.  
-      Todos os direitos reservados.
-    </p>
+    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional. Todos os direitos reservados.</p>
   </div>
 </footer>
 
@@ -107,6 +105,5 @@
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
 </script>
 
-<script src="script.js"></script>
 </body>
 </html>
