@@ -23,50 +23,71 @@
   </div>
 </header>
 
-<!-- HERO COMERCIAL -->
-<header class="hero hero-index">
+<!-- HERO -->
+<header class="hero" id="inicio">
   <div class="hero-text">
-    <h1>Transforme a gestão pedagógica da sua escola</h1>
-    <p>O <strong>Sistema de Apoio ao Ensino (SAE)</strong> conecta gestores, professores, alunos e responsáveis em uma plataforma intuitiva, segura e completa.</p>
-    <p>Organize turmas, acompanhe desempenho e fortaleça a aprendizagem com tecnologia e eficiência.</p>
-    <a href="contato.html" class="btn">Solicitar demonstração</a>
+    <h1>SAE</h1>
+    <p>
+      O <strong>Sistema de Apoio ao Ensino (SAE)</strong> é uma plataforma educacional
+      desenvolvida para apoiar escolas do ensino fundamental na organização pedagógica,
+      gestão acadêmica e acompanhamento do desempenho dos alunos.
+    </p>
+    <p>
+      Com foco em eficiência, clareza e integração, o SAE conecta
+      <strong>gestores, professores, alunos e responsáveis</strong>
+      em um único ambiente digital seguro e intuitivo.
+    </p>
   </div>
 </header>
 
-<!-- FEATURES / CARDS -->
+<!-- DIFERENCIAIS / CARDS -->
 <section class="features">
-  <div class="card show">
+  <div class="card">
     <img src="images/img2.png" alt="Materiais escolares">
     <h3>Organização pedagógica</h3>
     <p>Conteúdos estruturados por trimestre com avaliações integradas.</p>
   </div>
 
-  <div class="card show">
+  <div class="card">
     <img src="images/img3.png" alt="Alunos em sala">
     <h3>Acompanhamento educacional</h3>
-    <p>Monitoramento de desempenho, frequência e evolução dos alunos em tempo real.</p>
+    <p>Monitoramento de desempenho, frequência e evolução dos alunos.</p>
   </div>
 
-  <div class="card show">
+  <div class="card">
     <img src="images/img4.png" alt="Sala de aula">
     <h3>Gestão escolar integrada</h3>
-    <p>Administração completa de turmas, professores, relatórios e indicadores pedagógicos.</p>
+    <p>Administração completa de turmas, professores e relatórios.</p>
   </div>
 </section>
 
 <!-- PROVA SOCIAL -->
 <section class="features">
   <div class="card show">
-    <h3>Mais de 500 escolas satisfeitas</h3>
-    <p>O SAE está presente em instituições de ensino de todo o país, garantindo eficiência e resultados.</p>
+    <h3>Mais de 150 escolas atendidas</h3>
+    <p>O SAE é utilizado por instituições de ensino que buscam excelência acadêmica e organização pedagógica moderna.</p>
   </div>
   <div class="card show">
-    <h3>Depoimentos de gestores</h3>
-    <p>"O SAE transformou a gestão da nossa escola, tornando o acompanhamento dos alunos muito mais eficiente." - Direção Escola ABC</p>
+    <h3>95% de satisfação</h3>
+    <p>Escolas destacam facilidade de uso, clareza na gestão e resultados visíveis na performance dos alunos.</p>
+  </div>
+  <div class="card show">
+    <h3>Suporte especializado</h3>
+    <p>Equipe pronta para atendimento rápido e consultoria educacional personalizada.</p>
   </div>
 </section>
 
-<!-- FOOTER PADRÃO COMERCIAL -->
+<!-- CTA PRINCIPAL -->
+<section class="cta" id="institucional">
+  <h2>Educação com método, tecnologia e propósito</h2>
+  <p>
+    O SAE apoia instituições de ensino que buscam excelência acadêmica,
+    padronização de processos e gestão educacional moderna.
+  </p>
+  <a href="contato.html" class="btn">Solicitar demonstração</a>
+</section>
+
+<!-- FOOTER PADRÃO -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-brand">
@@ -96,6 +117,18 @@
 
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
+
+  // Animação leve fade-in para cards
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+    });
+  }, {threshold: 0.2});
+
+  cards.forEach(card => observer.observe(card));
 </script>
 
 </body>
