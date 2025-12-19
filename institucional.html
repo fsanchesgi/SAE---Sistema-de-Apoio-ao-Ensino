@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Institucional - SAE | Gestão Escolar Simplificada</title>
-  <meta name="description" content="Conheça o SAE, sua missão, visão e valores para melhorar a gestão educacional e pedagógica de escolas do ensino fundamental.">
+  <title>Institucional - SAE</title>
+  <meta name="description" content="Saiba mais sobre o SAE, sua missão, visão e valores. Plataforma educacional que conecta gestores, professores, alunos e responsáveis em um ambiente integrado.">
   <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/logo.png">
@@ -31,28 +31,28 @@
 <header class="hero hero-institucional">
   <div class="hero-text">
     <h1>Sobre o SAE</h1>
-    <p>O Sistema de Apoio ao Ensino (SAE) foi desenvolvido para apoiar escolas do ensino fundamental na gestão pedagógica e acadêmica de forma simples, eficiente e segura.</p>
+    <p>O SAE é uma plataforma educacional desenvolvida para apoiar escolas do ensino fundamental na gestão pedagógica, acompanhamento acadêmico e integração de todos os atores da educação.</p>
   </div>
 </header>
 
 <section class="features">
-  <div class="card">
+  <div class="card show">
     <h3>Missão</h3>
-    <p>Proporcionar ferramentas digitais para otimizar a gestão escolar e melhorar o acompanhamento pedagógico.</p>
+    <p>Promover eficiência e clareza na gestão escolar, fortalecendo o acompanhamento pedagógico e a tomada de decisão.</p>
   </div>
-  <div class="card">
+  <div class="card show">
     <h3>Visão</h3>
-    <p>Ser referência em plataformas de gestão escolar, conectando gestores, professores, alunos e responsáveis de forma integrada.</p>
+    <p>Ser referência em plataformas educacionais para gestão de escolas do ensino fundamental no Brasil.</p>
   </div>
-  <div class="card">
+  <div class="card show">
     <h3>Valores</h3>
-    <p>Eficiência, transparência, inovação, suporte e foco na experiência educacional.</p>
+    <p>Compromisso com educação de qualidade, inovação tecnológica, ética e segurança das informações.</p>
   </div>
 </section>
 
 <section class="cta">
-  <h2>Transforme a gestão da sua escola</h2>
-  <p>Solicite uma demonstração do SAE e conheça como podemos ajudar sua instituição a alcançar resultados mais claros e organizados.</p>
+  <h2>Transforme a gestão da sua escola com tecnologia e método</h2>
+  <p>O SAE conecta gestores, professores, alunos e responsáveis, criando um ambiente educacional integrado e eficiente.</p>
 </section>
 
 <footer class="footer">
@@ -81,6 +81,17 @@
 
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
+
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+    });
+  }, {threshold: 0.2});
+
+  cards.forEach(card => observer.observe(card));
 </script>
 
 </body>
