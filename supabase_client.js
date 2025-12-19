@@ -9,8 +9,8 @@ if (!window.supabase) {
 } else {
   // ✅ cria o client de forma segura
   window.supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
+    supabaseUrl,
+    supabaseKey
   );
 
   console.log("✅ Supabase inicializado com sucesso");
