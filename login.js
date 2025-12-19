@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // ✅ Validação correta: somente ao clicar
     if (!window.supabase) {
       alert("Erro: Supabase não inicializado.");
       return;
@@ -16,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("🔐 Tentando login:", email);
 
     const { data, error } =
-      await window.supabaseClient.auth.signInWithPassword({
+      await window.supabase.auth.signInWithPassword({
         email,
         password: senha
       });
