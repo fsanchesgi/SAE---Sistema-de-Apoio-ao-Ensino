@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Contato - SAE</title>
-  <meta name="description" content="Entre em contato com o SAE. Solicite propostas e obtenha atendimento especializado para sua instituição de ensino.">
+  <title>Planos - SAE</title>
+  <meta name="description" content="Conheça os planos do SAE. Escolha o melhor pacote para sua escola com gestão escolar completa, acompanhamento pedagógico e suporte especializado.">
   <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="images/logo.png">
@@ -28,39 +28,70 @@
   </div>
 </header>
 
-<header class="hero hero-contato">
+<header class="hero hero-planos">
   <div class="hero-text">
-    <h1>Contato SAE</h1>
-    <p>Fale com nossa equipe e conheça a melhor proposta para a sua instituição de ensino.</p>
+    <h1>Planos SAE</h1>
+    <p>Escolha o pacote ideal para sua instituição de ensino, com gestão pedagógica completa, acompanhamento de desempenho e suporte especializado.</p>
   </div>
 </header>
 
+<!-- PLANOS -->
 <section class="features">
+
+  <!-- PLANO ESSENCIAL -->
   <div class="card show">
-    <h3>Solicitar Proposta</h3>
-    <p>Preencha o formulário abaixo para receber uma apresentação personalizada do SAE de acordo com o perfil da sua escola.</p>
-    <form class="contact-form">
-      <input type="text" placeholder="Nome da instituição" required>
-      <input type="text" placeholder="Nome do responsável" required>
-      <input type="email" placeholder="E-mail institucional" required>
-      <input type="tel" placeholder="Telefone / WhatsApp" required>
-      <select required>
-        <option value="">Quantidade de alunos</option>
-        <option>Até 100 alunos</option>
-        <option>101 a 300 alunos</option>
-        <option>301 a 600 alunos</option>
-        <option>Mais de 600 alunos</option>
-      </select>
-      <textarea placeholder="Conte um pouco sobre sua instituição"></textarea>
-      <button type="submit" class="btn">Enviar solicitação</button>
-    </form>
+    <h3>Plano Essencial</h3>
+    <p><strong>Para escolas de pequeno porte</strong></p>
+    <p style="font-size: 2rem; margin: 20px 0; color:#2563eb;">
+      R$ 399/mês
+    </p>
+    <p>
+      • Gestão de turmas e professores<br>
+      • Organização de conteúdos por trimestre<br>
+      • Acompanhamento de alunos<br>
+      • Acesso para gestores e docentes<br>
+      • Suporte padrão
+    </p>
   </div>
 
+  <!-- PLANO PROFISSIONAL -->
   <div class="card show">
-    <h3>Atendimento Institucional</h3>
-    <p>Nosso atendimento é voltado para escolas, redes e instituições que buscam soluções educacionais estruturadas e escaláveis.</p>
-    <p>📧 contato@saeeducacional.com.br<br>📞 (00) 0000-0000<br>🕘 Horário comercial</p>
+    <h3>Plano Profissional</h3>
+    <p><strong>Para escolas em crescimento</strong></p>
+    <p style="font-size: 2rem; margin: 20px 0; color:#2563eb;">
+      R$ 899/mês
+    </p>
+    <p>
+      • Todas as funcionalidades do Essencial<br>
+      • Relatórios acadêmicos avançados<br>
+      • Acesso para responsáveis<br>
+      • Dashboards de desempenho<br>
+      • Suporte prioritário
+    </p>
   </div>
+
+  <!-- PLANO REDE -->
+  <div class="card show">
+    <h3>Plano Rede</h3>
+    <p><strong>Para grupos e redes de ensino</strong></p>
+    <p style="font-size: 1.5rem; margin: 20px 0; color:#2563eb;">
+      Sob consulta
+    </p>
+    <p>
+      • Gestão multi-unidade<br>
+      • Padronização pedagógica<br>
+      • Relatórios consolidados por escola<br>
+      • Integrações personalizadas<br>
+      • Suporte dedicado e SLA<br>
+      • Contrato anual
+    </p>
+  </div>
+
+</section>
+
+<section class="cta">
+  <h2>Escolha o plano ideal e transforme sua gestão escolar</h2>
+  <p>Com o SAE, sua escola terá organização pedagógica, acompanhamento eficiente e resultados visíveis.</p>
 </section>
 
 <footer class="footer">
@@ -90,6 +121,7 @@
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
 
+  // Animação leve fade-in para cards
   const cards = document.querySelectorAll('.card');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
