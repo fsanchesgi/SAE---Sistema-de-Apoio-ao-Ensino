@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin - SAE</title>
+  <meta name="description" content="Painel administrativo do SAE para gestão escolar, turmas e usuários.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
+</head>
+<body>
+
+<!-- HEADER PADRÃO -->
+<header class="header">
+  <div class="container-header">
+    <div class="logo">
+      <a href="index.html">
+        <img src="images/logo.png" alt="SAE" height="40">
+      </a>
+    </div>
+    <nav class="nav-left">
+      <a href="dashboard-admin.html">Dashboard</a>
+      <a href="#">Turmas</a>
+      <a href="#">Usuários</a>
+    </nav>
+    <div class="nav-right">
+      <button id="btnLogout" class="btn-header">Sair</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-text">
+    <h1>Painel Administrativo</h1>
+    <p>Gerencie usuários, turmas e indicadores do Sistema de Apoio ao Ensino.</p>
+  </div>
+</header>
+
+<!-- CONTEÚDO -->
+<section class="features">
+  <div class="card show">
+    <h2>Bem-vindo ao SAE</h2>
+    <p id="userEmail">Carregando informações do usuário...</p>
+  </div>
+
+  <div class="card show">
+    <h2>Gestão Escolar</h2>
+    <p>Acesse módulos administrativos para organização acadêmica.</p>
+  </div>
+
+  <div class="card show">
+    <h2>Relatórios</h2>
+    <p>Visualize indicadores de desempenho e acompanhamento pedagógico.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-bottom">
+    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.</p>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase_client.js"></script>
+<script src="dashboard-admin.js"></script>
+
+<script>
+  document.getElementById("ano-atual").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
