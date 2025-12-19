@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAE - Dashboard Professor</title>
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Supabase CDN -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <!-- Cliente Supabase -->
+  <script src="supabase_cliente.js" defer></script>
+</head>
+
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <nav class="nav">
+      <h1 class="logo">SAE</h1>
+      <ul class="menu">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#" id="btnLogout">Sair</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <h2>Olá, <span id="professor-nome">Professor</span></h2>
+    <p>Painel do Professor — acompanhamento pedagógico</p>
+  </section>
+
+  <!-- ================= CONTEÚDO ================= -->
+  <section class="features">
+
+    <!-- CARD TURMAS -->
+    <div class="card">
+      <h3>Minhas Turmas</h3>
+      <p>Turmas sob sua responsabilidade</p>
+      <ul id="listaTurmas">
+        <li>Carregando...</li>
+      </ul>
+    </div>
+
+    <!-- CARD ALUNOS -->
+    <div class="card">
+      <h3>Alunos</h3>
+      <p>Total de alunos vinculados</p>
+      <strong id="totalAlunos">--</strong>
+    </div>
+
+    <!-- CARD REGISTROS -->
+    <div class="card">
+      <h3>Registros Acadêmicos</h3>
+      <p>Lançamentos futuros de notas e frequência</p>
+      <button class="btn" disabled>Em breve</button>
+    </div>
+
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <p>© 2025 SAE - Sistema de Apoio ao Ensino</p>
+  </footer>
+
+  <!-- ================= SCRIPT ================= -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+
+      if (!window.supabase) {
+        alert("Erro: Supabase não inicializado.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      /* ================= SESSÃO ================= */
+      const { data: { session } } = await window.supabase.auth.getSession();
+
+      if (!session) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      /* ================= PERFIL ================= */
+      const { data: profile, error } = await window.supabase
+        .from("profiles")
+        .select("nome, role")
+        .eq("id", session.user.id)
+        .single();
+
+      if (error || profile.role !== "professor") {
+        alert("Acesso restrito ao professor.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      document.getElementById("professor-nome").textContent =
+        profile.nome || session.user.email;
+
+      /* ================= TURMAS (placeholder) ================= */
+      // Estrutura preparada para futura tabela "turmas"
+      const listaTurmas = document.getElementById("listaTurmas");
+      listaTurmas.innerHTML = `
+        <li>Turma 1º Ano A</li>
+        <li>Turma 2º Ano B</li>
+      `;
+
+      /* ================= ALUNOS (placeholder) ================= */
+      // Preparado para futura relação professor x alunos
+      document.getElementById("totalAlunos").textContent = "45";
+
+      /* ================= LOGOUT ================= */
+      document.getElementById("btnLogout").addEventListener("click", async () => {
+        await window.supabase.auth.signOut();
+        window.location.href = "login.html";
+      });
+
+    });
+  </script>
+
+</body>
+</html>
