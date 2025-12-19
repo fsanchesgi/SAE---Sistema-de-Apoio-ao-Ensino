@@ -5,17 +5,18 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     if (!window.supabaseClient) {
-      alert("Supabase não inicializado.");
+      alert("Erro: Supabase não inicializado.");
       return;
     }
 
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const { error } = await window.supabaseClient.auth.signInWithPassword({
-      email,
-      password: senha
-    });
+    const { error } =
+      await window.supabaseClient.auth.signInWithPassword({
+        email,
+        password: senha
+      });
 
     if (error) {
       alert("Erro ao entrar: " + error.message);
