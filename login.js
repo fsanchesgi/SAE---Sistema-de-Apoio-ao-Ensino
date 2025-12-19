@@ -4,10 +4,15 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    if (!window.supabaseClient) {
+      alert("Supabase não inicializado.");
+      return;
+    }
+
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await window.supabaseClient.auth.signInWithPassword({
       email,
       password: senha
     });
