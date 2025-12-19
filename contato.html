@@ -2,16 +2,21 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Contato SAE | Solicite sua proposta</title>
-  <meta name="description" content="Entre em contato com o SAE, tire suas dúvidas e solicite uma proposta personalizada para sua instituição de ensino.">
+  <title>Contato - SAE | Gestão Escolar Simplificada</title>
+  <meta name="description" content="Entre em contato com a equipe SAE e solicite informações ou demonstração da plataforma de apoio ao ensino.">
   <meta name="robots" content="index, follow">
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="images/logo.png">
 </head>
 <body>
 
-<!-- HEADER PADRÃO -->
 <header class="header">
   <div class="container-header">
+    <div class="logo">
+      <a href="index.html">
+        <img src="images/logo.png" alt="SAE - Sistema de Apoio ao Ensino">
+      </a>
+    </div>
     <nav class="nav-left">
       <a href="index.html">Início</a>
       <a href="planos.html">Planos</a>
@@ -23,21 +28,16 @@
   </div>
 </header>
 
-<!-- HERO CONTATO -->
 <header class="hero hero-contato">
   <div class="hero-text">
-    <h1>Fale conosco</h1>
-    <p>Solicite uma proposta personalizada e conheça como o SAE pode otimizar a gestão da sua instituição de ensino.</p>
+    <h1>Contato Institucional</h1>
+    <p>Fale com nossa equipe e descubra como o SAE pode transformar a gestão escolar da sua instituição.</p>
   </div>
 </header>
 
-<!-- FORMULÁRIO COMERCIAL -->
 <section class="features">
-
   <div class="card show">
     <h3>Solicitar proposta</h3>
-    <p>Preencha o formulário abaixo para receber uma apresentação do SAE de acordo com o perfil da sua escola.</p>
-
     <form class="contact-form">
       <input type="text" placeholder="Nome da instituição" required>
       <input type="text" placeholder="Nome do responsável" required>
@@ -58,34 +58,28 @@
   <div class="card show">
     <h3>Atendimento institucional</h3>
     <p>Nosso atendimento é voltado para escolas, redes e instituições que buscam soluções educacionais estruturadas e escaláveis.</p>
-    <p>📧 contato@saeeducacional.com.br<br>
-       📞 (00) 0000-0000<br>
-       🕘 Horário comercial</p>
+    <p>📧 contato@saeeducacional.com.br<br>📞 (00) 0000-0000<br>🕘 Atendimento em horário comercial</p>
   </div>
-
 </section>
 
-<!-- CTA -->
 <section class="cta">
-  <h2>Estamos prontos para atender sua escola</h2>
-  <p>Solicite uma demonstração personalizada e descubra como o SAE pode transformar sua gestão pedagógica.</p>
+  <h2>Educação se constrói com parceria e confiança</h2>
+  <p>Solicite uma demonstração e conheça o SAE em ação.</p>
+  <a href="contato.html" class="btn">Solicitar demonstração</a>
 </section>
 
-<!-- FOOTER PADRÃO -->
 <footer class="footer">
   <div class="footer-container">
     <div class="footer-brand">
       <h3>SAE</h3>
       <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar, fortalecer o acompanhamento pedagógico e apoiar decisões estratégicas nas instituições de ensino.</p>
     </div>
-
     <div class="footer-links">
       <h4>Institucional</h4>
       <a href="institucional.html">Sobre o SAE</a>
       <a href="planos.html">Planos</a>
       <a href="contato.html">Contato</a>
     </div>
-
     <div class="footer-links">
       <h4>Documentos</h4>
       <a href="lgpd.html">LGPD e Segurança</a>
@@ -93,7 +87,6 @@
       <a href="termos.html">Termos de Uso</a>
     </div>
   </div>
-
   <div class="footer-bottom">
     <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional. Todos os direitos reservados.</p>
   </div>
@@ -101,6 +94,17 @@
 
 <script>
   document.getElementById("ano-atual").textContent = new Date().getFullYear();
+
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('show');
+      }
+    });
+  }, {threshold: 0.2});
+
+  cards.forEach(card => observer.observe(card));
 </script>
 
 </body>
