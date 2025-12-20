@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard Admin - SAE</title>
-  <meta name="description" content="Painel de controle do SAE para administradores.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
@@ -15,7 +14,7 @@
   <div class="container-header">
     <div class="logo">
       <a href="index.html">
-        <img src="images/logo.png" alt="SAE" height="40">
+        <img src="images/logo.png" alt="SAE - Sistema de Apoio ao Ensino" height="40">
       </a>
     </div>
     <nav class="nav-left">
@@ -30,30 +29,31 @@
 </header>
 
 <!-- HERO -->
-<header class="hero hero-login">
+<header class="hero hero-dashboard">
   <div class="hero-text">
     <h1>Bem-vindo, Administrador</h1>
     <p>Painel de controle do Sistema de Apoio ao Ensino</p>
-    <p id="userEmail"></p>
   </div>
 </header>
 
-<!-- FORMULÁRIO DE CADASTRO -->
+<!-- FORMULÁRIO DE CADASTRO DE USUÁRIO -->
 <section class="features">
   <div class="card show">
     <h2>Cadastrar Novo Usuário</h2>
     <form id="formCadastro" class="contact-form">
       <input type="text" id="nome" placeholder="Nome completo" required>
-      <input type="email" id="email" placeholder="Email" required>
+      <input type="email" id="email" placeholder="Email institucional" required>
       <input type="password" id="senha" placeholder="Senha" required>
       <select id="role" required>
         <option value="">Selecione o perfil</option>
+        <option value="admin">Admin</option>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
+        <option value="pai">Responsável</option>
       </select>
-      <button type="submit" class="btn">Cadastrar Usuário</button>
+      <button type="submit" class="btn">Criar Usuário</button>
     </form>
-    <p id="msgCadastro"></p>
+    <p id="statusCadastro" style="margin-top: 15px;"></p>
   </div>
 </section>
 
@@ -62,23 +62,11 @@
   <div class="footer-container">
     <div class="footer-brand">
       <h3>SAE</h3>
-      <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar e acompanhar o desempenho pedagógico.</p>
-    </div>
-    <div class="footer-links">
-      <h4>Institucional</h4>
-      <a href="institucional.html">Sobre o SAE</a>
-      <a href="planos.html">Planos</a>
-      <a href="contato.html">Contato</a>
-    </div>
-    <div class="footer-links">
-      <h4>Documentos</h4>
-      <a href="lgpd.html">LGPD e Segurança</a>
-      <a href="politica-privacidade.html">Política de Privacidade</a>
-      <a href="termos.html">Termos de Uso</a>
+      <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar, fortalecer o acompanhamento pedagógico e apoiar decisões estratégicas nas instituições de ensino.</p>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© <span id="ano-atual"></span> SAE – Todos os direitos reservados.</p>
+    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional. Todos os direitos reservados.</p>
   </div>
 </footer>
 
@@ -88,16 +76,8 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", async () => {
-    // Atualiza ano
+    // Atualiza o ano
     document.getElementById("ano-atual").textContent = new Date().getFullYear();
-
-    // Verifica sessão
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      window.location.href = "login.html";
-      return;
-    }
-    document.getElementById("userEmail").textContent = `Usuário autenticado: ${session.user.email}`;
 
     // Logout
     document.getElementById("btnLogout").addEventListener("click", async () => {
@@ -105,32 +85,49 @@
       window.location.href = "login.html";
     });
 
-    // Cadastro de usuário (simulação no front-end)
+    // Verifica sessão ativa
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // Cadastro de usuário
     const form = document.getElementById("formCadastro");
+    const status = document.getElementById("statusCadastro");
+
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      status.textContent = "Criando usuário...";
       const nome = document.getElementById("nome").value;
       const email = document.getElementById("email").value;
       const senha = document.getElementById("senha").value;
       const role = document.getElementById("role").value;
 
-      // ⚠️ Aqui precisa de backend seguro para criar usuários reais
-      // No front-end apenas mostra mensagem de teste
-      document.getElementById("msgCadastro").textContent = 
-        `Usuário ${nome} (${role}) cadastrado com sucesso (simulação).`;
-      form.reset();
-    });
+      if (!nome || !email || !senha || !role) {
+        status.textContent = "Preencha todos os campos!";
+        return;
+      }
 
-    // Animação cards
-    const cards = document.querySelectorAll('.card');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add('show');
+      try {
+        // Chamada à Supabase Function segura
+        const res = await fetch("https://vhwhjnghtmlrfieiwssi.functions.supabase.co/create-user", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nome, email, senha, role })
+        });
+
+        const data = await res.json();
+        if (data.error) {
+          status.textContent = "Erro: " + data.error;
+        } else {
+          status.textContent = "✅ Usuário criado com sucesso!";
+          form.reset();
         }
-      });
-    }, {threshold: 0.2});
-    cards.forEach(card => observer.observe(card));
+      } catch (err) {
+        status.textContent = "Erro ao criar usuário: " + err.message;
+      }
+    });
   });
 </script>
 
