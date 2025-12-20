@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     resultado.textContent = "Cadastrando...";
 
     try {
-      const response = await fetch("https://SEU_EDGE_FUNCTION_URL/create-user", {
+      const response = await fetch("https://vhwhjnghtmlrfieiwssi.supabase.co/functions/v1/create-user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ nome, email, senha, role })
