@@ -5,12 +5,19 @@
 <title>Dashboard Admin - SAE</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="style.css">
+
+<!-- Supabase JS -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<!-- Conexão com Supabase -->
 <script src="supabase_client.js"></script>
+
+<!-- Lógica do dashboard -->
 <script src="dashboard-admin.js" defer></script>
 </head>
 <body>
 
+<!-- HERO -->
 <header class="hero hero-login">
   <div class="hero-text">
     <h1>Bem-vindo, Administrador</h1>
@@ -19,6 +26,7 @@
   </div>
 </header>
 
+<!-- CADASTRO DE USUÁRIO -->
 <section class="features">
   <div class="card show">
     <h2>Cadastrar Usuário</h2>
@@ -36,6 +44,33 @@
       <button type="submit" class="btn">Cadastrar</button>
     </form>
     <div id="resultadoCadastro"></div>
+  </div>
+</section>
+
+<!-- LISTAGEM DE USUÁRIOS -->
+<section class="features">
+  <div class="card show">
+    <h2>Usuários Cadastrados</h2>
+
+    <label for="filtroRole">Filtrar por perfil:</label>
+    <select id="filtroRole">
+      <option value="">Todos</option>
+      <option value="admin">Administrador</option>
+      <option value="professor">Professor</option>
+      <option value="aluno">Aluno</option>
+      <option value="pai">Responsável</option>
+    </select>
+
+    <table id="tabelaUsuarios">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
   </div>
 </section>
 
