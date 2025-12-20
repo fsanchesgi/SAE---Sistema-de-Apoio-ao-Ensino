@@ -2,9 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard Admin | SAE</title>
+  <title>Dashboard Admin - SAE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
 </head>
@@ -14,65 +13,121 @@
 <header class="header">
   <div class="container-header">
     <div class="logo">
-      <img src="images/logo.png" alt="SAE" height="40">
+      <a href="index.html">
+        <img src="images/logo.png" alt="SAE - Sistema de Apoio ao Ensino">
+      </a>
     </div>
-
+    <nav class="nav-left">
+      <a href="dashboard-admin.html">Dashboard</a>
+      <a href="planos.html">Planos</a>
+      <a href="institucional.html">Institucional</a>
+    </nav>
     <div class="nav-right">
       <button id="btnLogout" class="btn-header">Sair</button>
     </div>
   </div>
 </header>
 
-<!-- HERO -->
-<header class="hero hero-login">
+<!-- HERO / BOAS-VINDAS -->
+<section class="hero hero-login">
   <div class="hero-text">
-    <h1>Dashboard Administrativo</h1>
-    <p id="userEmail">Carregando usuário...</p>
+    <h1>Bem-vindo, Administrador</h1>
+    <p>Painel de controle do Sistema de Apoio ao Ensino</p>
+    <p id="userInfo">Carregando informações do usuário...</p>
   </div>
-</header>
+</section>
 
-<!-- CONTEÚDO -->
+<!-- CONTEÚDO PRINCIPAL -->
 <section class="features">
-
-  <!-- CARD ADMIN -->
   <div class="card show">
-    <h2>Cadastrar novo usuário</h2>
-    <p>Crie contas para professores, alunos ou administradores.</p>
-
-    <form id="formCriarUsuario" class="contact-form">
-      <input type="text" id="nome" placeholder="Nome completo" required>
+    <h2>Área de Teste Temporária</h2>
+    <p>Confirme se o usuário e role estão corretos no console.</p>
+    <form id="formTestUser" class="contact-form">
+      <input type="text" id="nome" placeholder="Nome do usuário" required>
       <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="senha" placeholder="Senha inicial" required>
-
       <select id="role" required>
         <option value="">Selecione o perfil</option>
-        <option value="admin">Administrador</option>
+        <option value="admin">Admin</option>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
       </select>
-
-      <button type="submit" class="btn">Criar usuário</button>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <button type="submit" class="btn">Criar Usuário</button>
     </form>
-
-    <p id="msgStatus" style="margin-top:15px;"></p>
   </div>
-
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-bottom">
-    <p>© <span id="ano"></span> SAE – Sistema de Apoio Educacional</p>
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>SAE</h3>
+      <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar.</p>
+    </div>
   </div>
 </footer>
 
 <!-- SCRIPTS -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 <script src="supabase_client.js"></script>
-<script src="dashboard-admin.js"></script>
-
 <script>
-  document.getElementById("ano").textContent = new Date().getFullYear();
+document.addEventListener("DOMContentLoaded", async () => {
+  // Verifica sessão ativa
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // Mostra email e role temporariamente
+  const { data: { user } } = await supabase.auth.getUser();
+  document.getElementById("userInfo").textContent = `Email: ${user.email}`;
+
+  // Logout
+  document.getElementById("btnLogout").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+  });
+
+  // Formulário de teste para criar usuário
+  const form = document.getElementById("formTestUser");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    const role = document.getElementById("role").value;
+
+    try {
+      // Cria usuário no auth
+      const { data: newUser, error: createUserError } = await supabase.auth.admin.createUser({
+        email: email,
+        password: senha,
+        email_confirm: true
+      });
+
+      if (createUserError) throw createUserError;
+
+      console.log("Usuário criado:", newUser);
+
+      // Insere profile na tabela
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .insert([
+          { id: newUser.user.id, nome, role }
+        ]);
+
+      if (profileError) throw profileError;
+
+      console.log("Profile criado:", profile);
+      alert("Usuário e profile criados com sucesso!");
+    } catch (err) {
+      console.error(err);
+      alert("Erro ao criar usuário: " + err.message);
+    }
+  });
+});
 </script>
 
 </body>
