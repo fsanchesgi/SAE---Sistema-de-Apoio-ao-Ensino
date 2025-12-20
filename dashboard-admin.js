@@ -1,100 +1,169 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Dashboard Admin | SAE</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="images/logo.png" type="image/png">
+  <meta charset="UTF-8" />
+  <title>SAE | Dashboard Administrador</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6f9;
+      color: #333;
+    }
+
+    header {
+      background: #0a2a66;
+      color: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header nav a {
+      color: #fff;
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    header button {
+      background: #c62828;
+      border: none;
+      color: #fff;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+    }
+
+    .user-info {
+      margin-bottom: 25px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    section {
+      background: #fff;
+      padding: 25px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+      margin-bottom: 30px;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    form input,
+    form select,
+    form button {
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    form button {
+      background: #0a2a66;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      grid-column: 1 / -1;
+      max-width: 250px;
+    }
+
+    .msg {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #0a2a66;
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- HEADER PADRÃO -->
-<header class="header">
-  <div class="container-header">
-    <div class="logo">
-      <a href="index.html">
-        <img src="images/logo.png" alt="SAE" height="40">
-      </a>
-    </div>
-
-    <nav class="nav-left">
-      <a href="#">Dashboard</a>
-      <a href="#">Usuários</a>
-      <a href="#">Configurações</a>
-    </nav>
-
-    <div class="nav-right">
-      <button id="btnLogout" class="btn-header">Sair</button>
-    </div>
-  </div>
+<header>
+  <nav>
+    <a href="#">Início</a>
+    <a href="#">Usuários</a>
+    <a href="#">Configurações</a>
+  </nav>
+  <button id="btnLogout">Sair</button>
 </header>
 
-<!-- HERO DASHBOARD -->
-<header class="hero hero-dashboard">
-  <div class="hero-text">
-    <h1>Área Administrativa</h1>
-    <p>Painel de controle do Sistema de Apoio ao Ensino</p>
-    <p id="userEmail" style="margin-top:10px;font-size:0.95rem;"></p>
-  </div>
-</header>
+<main>
+  <h1>Dashboard do Administrador</h1>
+  <div class="user-info" id="userEmail">Carregando usuário...</div>
 
-<!-- CONTEÚDO ADMIN -->
-<section class="features">
+  <section>
+    <h2>Cadastrar novo usuário</h2>
 
-  <!-- CARD VISÃO GERAL -->
-  <div class="card show">
-    <h3>Visão Geral</h3>
-    <p>
-      Este painel permite o gerenciamento completo da plataforma SAE,
-      incluindo usuários, permissões e dados institucionais.
-    </p>
-  </div>
-
-  <!-- CARD CADASTRO USUÁRIO -->
-  <div class="card show">
-    <h3>Cadastrar novo usuário</h3>
-    <p>Crie usuários e defina o perfil de acesso.</p>
-
-    <form id="formCreateUser" class="contact-form">
-      <input type="text" id="nome" placeholder="Nome completo" required>
-      <input type="email" id="email" placeholder="E-mail" required>
-      <input type="password" id="senha" placeholder="Senha inicial" required>
+    <form id="formCreateUser">
+      <input type="text" id="nome" placeholder="Nome completo" required />
+      <input type="email" id="email" placeholder="E-mail" required />
+      <input type="password" id="senha" placeholder="Senha" required />
 
       <select id="perfil" required>
         <option value="">Selecione o perfil</option>
         <option value="admin">Administrador</option>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
-        <option value="responsavel">Responsável</option>
       </select>
 
-      <button type="submit" class="btn">Cadastrar usuário</button>
+      <button type="submit">Cadastrar usuário</button>
     </form>
 
-    <p id="userCreateMsg" style="margin-top:10px;font-size:0.9rem;"></p>
-  </div>
+    <div class="msg" id="userCreateMsg"></div>
+  </section>
+</main>
 
-</section>
-
-<!-- FOOTER PADRÃO -->
-<footer class="footer">
-  <div class="footer-bottom">
-    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.</p>
-  </div>
+<footer>
+  SAE — Sistema de Apoio ao Ensino © <span id="ano-atual"></span>
 </footer>
 
-<!-- SUPABASE -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script src="supabase_client.js"></script>
+<!-- Cliente Supabase -->
+<script>
+const supabaseUrl = "https://vhwhjnghtmlrfieiwssi.supabase.co";
+const supabaseKey = "SUA_ANON_KEY_AQUI";
 
+window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+</script>
+
+<!-- Script Dashboard -->
 <script>
 document.getElementById("ano-atual").textContent = new Date().getFullYear();
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // 🔒 Proteção de sessão
+  // 🔐 Verifica sessão
   const { data: { session } } = await window.supabase.auth.getSession();
 
   if (!session) {
@@ -103,7 +172,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   document.getElementById("userEmail").textContent =
-    `Usuário autenticado: ${session.user.email}`;
+    "Usuário autenticado: " + session.user.email;
 
   // 🚪 Logout
   document.getElementById("btnLogout").addEventListener("click", async () => {
@@ -118,29 +187,41 @@ document.addEventListener("DOMContentLoaded", async () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const nome = document.getElementById("nome").value;
+    msg.textContent = "Criando usuário...";
+
+    const nome = nomeInput = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
     const perfil = document.getElementById("perfil").value;
 
-    msg.textContent = "Criando usuário...";
+    // Cria usuário no Auth
+    const { data: authData, error: authError } =
+      await window.supabase.auth.signUp({
+        email,
+        password: senha
+      });
 
-    // ⚠️ IMPORTANTE
-    // Esse cadastro cria usuário no AUTH
-    // O perfil será salvo depois na tabela profiles
-    const { data, error } = await window.supabase.auth.signUp({
-      email,
-      password: senha
-    });
-
-    if (error) {
-      msg.textContent = "Erro: " + error.message;
+    if (authError) {
+      msg.textContent = "Erro: " + authError.message;
       return;
     }
 
-    msg.textContent =
-      `Usuário criado com sucesso. Perfil: ${perfil}`;
+    // Salva perfil
+    const { error: profileError } = await window.supabase
+      .from("profiles")
+      .insert({
+        id: authData.user.id,
+        nome,
+        perfil
+      });
 
+    if (profileError) {
+      msg.textContent =
+        "Usuário criado, mas erro ao salvar perfil.";
+      return;
+    }
+
+    msg.textContent = "Usuário cadastrado com sucesso!";
     form.reset();
   });
 
