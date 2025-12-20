@@ -343,3 +343,15 @@ body {
   height: 50px;
   width: auto;
 }
+
+/* =========================
+   AJUSTE PARA PÁGINAS INTERNAS (DASHBOARD)
+========================= */
+
+.hero-dashboard {
+  height: 60vh; /* menor que a home */
+}
+
+body {
+  padding-top: 90px; /* compensa header fixo */
+}
