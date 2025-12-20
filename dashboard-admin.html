@@ -7,23 +7,28 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
   <style>
-    body { background: #f5f7fa; color: #333; font-family: Arial, sans-serif; }
-    .dashboard-container { max-width: 1200px; margin: 50px auto 50px; padding: 0 20px; }
-    h1, h2 { margin-bottom: 20px; }
-    .user-info { margin-bottom: 20px; font-weight: bold; }
-    .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; }
-    form { display: flex; flex-direction: column; gap: 15px; }
-    form input, form select { padding: 12px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 1rem; }
-    form button { padding: 12px; border-radius: 8px; background: #2563eb; color: #fff; font-weight: bold; border: none; cursor: pointer; }
-    form button:hover { background: #1e40af; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
-    th { background-color: #2563eb; color: white; }
-    #btnLogout { background: #ef4444; margin-top: 10px; }
-    #btnLogout:hover { background: #b91c1c; }
+    body { background: #f5f7fa; color: #333; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .dashboard-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
     .hero { height: 250px; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/img0.png") center / cover no-repeat; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; border-radius: 12px; margin-bottom: 30px; }
     .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
     .hero p { font-size: 1.1rem; }
+
+    .header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(6px); }
+    .container-header { max-width: 1200px; margin: auto; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-left { display: flex; gap: 30px; }
+    .nav-left a { color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; }
+    .nav-left a:hover { color: #93c5fd; }
+    .btn-header { background: #2563eb; color: #fff; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: 0.3s; }
+    .btn-header:hover { background: #1e40af; }
+
+    /* FORMULÁRIO DE CADASTRO */
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 25px; margin-bottom: 30px; }
+    .card h2 { margin-bottom: 15px; }
+    .contact-form { display: flex; flex-direction: column; gap: 15px; }
+    .contact-form input, .contact-form select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 1rem; }
+    .contact-form input:focus, .contact-form select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15); }
+    .contact-form button { background: #2563eb; color: #fff; padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: 500; transition: 0.3s; }
+    .contact-form button:hover { background: #1e40af; }
   </style>
 </head>
 <body>
@@ -54,46 +59,30 @@
 </div>
 
 <div class="dashboard-container">
-  <p class="user-info" id="userEmail">Carregando...</p>
 
-  <!-- FORMULÁRIO DE CRIAÇÃO DE USUÁRIO -->
+  <!-- FORMULÁRIO DE CADASTRO DE USUÁRIOS -->
   <div class="card">
-    <h2>Criar Novo Usuário</h2>
-    <form id="formCreateUser">
+    <h2>Cadastrar Novo Usuário</h2>
+    <form id="formCadastro" class="contact-form">
       <input type="text" id="nome" placeholder="Nome completo" required>
-      <input type="email" id="email" placeholder="Email institucional" required>
+      <input type="email" id="email" placeholder="Email" required>
       <input type="password" id="senha" placeholder="Senha" required>
       <select id="role" required>
-        <option value="">Selecione o perfil</option>
+        <option value="" disabled selected>Escolha o perfil</option>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
       </select>
-      <button type="submit">Criar Usuário</button>
+      <button type="submit">Cadastrar Usuário</button>
     </form>
   </div>
 
-  <!-- LISTA DE USUÁRIOS -->
-  <div class="card">
-    <h2>Usuários cadastrados</h2>
-    <table id="usersTable">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Email / ID</th>
-          <th>Perfil</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td colspan="3">Carregando usuários...</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div id="mensagem"></div>
+
 </div>
 
 <!-- SCRIPTS -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase_client.js"></script>
-<script src="login.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
   // 1️⃣ Verifica sessão
@@ -103,77 +92,41 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  document.getElementById("userEmail").textContent = `Usuário autenticado: ${session.user.email}`;
-
   // 2️⃣ Logout
   document.getElementById("btnLogout").addEventListener("click", async () => {
     await supabase.auth.signOut();
     window.location.href = "login.html";
   });
 
-  // 3️⃣ Criar usuário (admin pode criar professor e aluno)
-  async function criarUsuario(email, senha, nome, role) {
-    try {
-      const { data: user, error } = await supabase.auth.admin.createUser({
-        email,
-        password: senha,
-        email_confirm: true
-      });
+  // 3️⃣ Cadastro de usuários
+  const form = document.getElementById("formCadastro");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    const role = document.getElementById("role").value;
 
-      if (error) {
-        alert("Erro ao criar usuário: " + error.message);
-        return;
-      }
+    try {
+      // Cria usuário no Auth
+      const { data: user, error: authError } = await supabase.auth.admin.createUser({
+        email,
+        password: senha
+      });
+      if (authError) throw authError;
 
       // Salva perfil na tabela profiles
-      const { error: profileError } = await supabase.from('profiles').insert([
-        { id: user.user.id, nome, role }
-      ]);
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert([{ id: user.user.id, nome, role }]);
+      if (profileError) throw profileError;
 
-      if (profileError) {
-        alert("Erro ao salvar perfil: " + profileError.message);
-        return;
-      }
-
-      alert(`Usuário criado: ${nome} (${role})`);
-      listarUsuarios();
-      document.getElementById("formCreateUser").reset();
+      document.getElementById("mensagem").textContent = "✅ Usuário cadastrado com sucesso!";
+      form.reset();
     } catch (err) {
-      alert("Erro inesperado: " + err.message);
+      document.getElementById("mensagem").textContent = "❌ Erro ao criar usuário: " + err.message;
     }
-  }
-
-  document.getElementById('formCreateUser').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const senha = document.getElementById('senha').value;
-    const role = document.getElementById('role').value;
-    await criarUsuario(email, senha, nome, role);
   });
-
-  // 4️⃣ Listar usuários
-  async function listarUsuarios() {
-    const { data, error } = await supabase.from('profiles').select('nome, id, role');
-    const tbody = document.querySelector("#usersTable tbody");
-    if (error) {
-      tbody.innerHTML = `<tr><td colspan="3">Erro ao carregar usuários</td></tr>`;
-      return;
-    }
-    if (!data.length) {
-      tbody.innerHTML = `<tr><td colspan="3">Nenhum usuário cadastrado</td></tr>`;
-      return;
-    }
-    tbody.innerHTML = data.map(u => `
-      <tr>
-        <td>${u.nome}</td>
-        <td>${u.id}</td>
-        <td>${u.role}</td>
-      </tr>
-    `).join('');
-  }
-
-  listarUsuarios();
 });
 </script>
 
