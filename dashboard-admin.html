@@ -7,11 +7,10 @@
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
   <style>
-    /* Ajustes específicos para dashboard */
     body { background: #f5f7fa; color: #333; font-family: Arial, sans-serif; }
-    .dashboard-container { max-width: 1200px; margin: 120px auto 50px; padding: 0 20px; }
+    .dashboard-container { max-width: 1200px; margin: 50px auto 50px; padding: 0 20px; }
     h1, h2 { margin-bottom: 20px; }
-    .user-info { margin-bottom: 30px; font-weight: bold; }
+    .user-info { margin-bottom: 20px; font-weight: bold; }
     .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; }
     form { display: flex; flex-direction: column; gap: 15px; }
     form input, form select { padding: 12px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 1rem; }
@@ -22,6 +21,9 @@
     th { background-color: #2563eb; color: white; }
     #btnLogout { background: #ef4444; margin-top: 10px; }
     #btnLogout:hover { background: #b91c1c; }
+    .hero { height: 250px; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/img0.png") center / cover no-repeat; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; border-radius: 12px; margin-bottom: 30px; }
+    .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .hero p { font-size: 1.1rem; }
   </style>
 </head>
 <body>
@@ -43,12 +45,18 @@
   </div>
 </header>
 
-<div class="dashboard-container">
-  <h1>Bem-vindo, Administrador</h1>
-  <p class="user-info" id="userEmail">Carregando...</p>
-  <p>Painel de controle do Sistema de Apoio ao Ensino</p>
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <h1>Bem-vindo, Administrador</h1>
+    <p>Painel de controle do Sistema de Apoio ao Ensino</p>
+  </div>
+</div>
 
-  <!-- CRIAÇÃO DE USUÁRIO -->
+<div class="dashboard-container">
+  <p class="user-info" id="userEmail">Carregando...</p>
+
+  <!-- FORMULÁRIO DE CRIAÇÃO DE USUÁRIO -->
   <div class="card">
     <h2>Criar Novo Usuário</h2>
     <form id="formCreateUser">
@@ -56,6 +64,7 @@
       <input type="email" id="email" placeholder="Email institucional" required>
       <input type="password" id="senha" placeholder="Senha" required>
       <select id="role" required>
+        <option value="">Selecione o perfil</option>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
       </select>
@@ -70,7 +79,7 @@
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Email</th>
+          <th>Email / ID</th>
           <th>Perfil</th>
         </tr>
       </thead>
@@ -102,27 +111,38 @@ document.addEventListener("DOMContentLoaded", async () => {
     window.location.href = "login.html";
   });
 
-  // 3️⃣ Função de criar usuário
+  // 3️⃣ Criar usuário (admin pode criar professor e aluno)
   async function criarUsuario(email, senha, nome, role) {
     try {
-      const response = await fetch('/api/create-user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password: senha, nome, role })
+      const { data: user, error } = await supabase.auth.admin.createUser({
+        email,
+        password: senha,
+        email_confirm: true
       });
-      const data = await response.json();
-      if (data.error) alert("Erro ao criar usuário: " + data.error);
-      else {
-        alert("Usuário criado com sucesso! ID: " + data.userId);
-        listarUsuarios();
-        document.getElementById("formCreateUser").reset();
+
+      if (error) {
+        alert("Erro ao criar usuário: " + error.message);
+        return;
       }
+
+      // Salva perfil na tabela profiles
+      const { error: profileError } = await supabase.from('profiles').insert([
+        { id: user.user.id, nome, role }
+      ]);
+
+      if (profileError) {
+        alert("Erro ao salvar perfil: " + profileError.message);
+        return;
+      }
+
+      alert(`Usuário criado: ${nome} (${role})`);
+      listarUsuarios();
+      document.getElementById("formCreateUser").reset();
     } catch (err) {
-      alert("Erro: " + err.message);
+      alert("Erro inesperado: " + err.message);
     }
   }
 
-  // 4️⃣ Formulário submit
   document.getElementById('formCreateUser').addEventListener('submit', async (e) => {
     e.preventDefault();
     const nome = document.getElementById('nome').value;
@@ -132,9 +152,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     await criarUsuario(email, senha, nome, role);
   });
 
-  // 5️⃣ Listar usuários
+  // 4️⃣ Listar usuários
   async function listarUsuarios() {
-    const { data, error } = await supabase.from('profiles').select('nome, role, id');
+    const { data, error } = await supabase.from('profiles').select('nome, id, role');
     const tbody = document.querySelector("#usersTable tbody");
     if (error) {
       tbody.innerHTML = `<tr><td colspan="3">Erro ao carregar usuários</td></tr>`;
@@ -153,7 +173,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     `).join('');
   }
 
-  // Inicializa listagem
   listarUsuarios();
 });
 </script>
