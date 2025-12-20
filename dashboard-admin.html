@@ -6,6 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
+  <style>
+    /* Ajustes específicos para dashboard */
+    body { background: #f5f7fa; color: #333; font-family: Arial, sans-serif; }
+    .dashboard-container { max-width: 1200px; margin: 120px auto 50px; padding: 0 20px; }
+    h1, h2 { margin-bottom: 20px; }
+    .user-info { margin-bottom: 30px; font-weight: bold; }
+    .card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 30px; }
+    form { display: flex; flex-direction: column; gap: 15px; }
+    form input, form select { padding: 12px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 1rem; }
+    form button { padding: 12px; border-radius: 8px; background: #2563eb; color: #fff; font-weight: bold; border: none; cursor: pointer; }
+    form button:hover { background: #1e40af; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background-color: #2563eb; color: white; }
+    #btnLogout { background: #ef4444; margin-top: 10px; }
+    #btnLogout:hover { background: #b91c1c; }
+  </style>
 </head>
 <body>
 
@@ -26,59 +43,119 @@
   </div>
 </header>
 
-<!-- HERO -->
-<header class="hero hero-login">
-  <div class="hero-text">
-    <h1>Bem-vindo, Administrador</h1>
-    <p>Painel de controle do Sistema de Apoio ao Ensino</p>
-    <p id="userEmail" style="margin-top:10px; font-weight:bold;"></p>
-  </div>
-</header>
+<div class="dashboard-container">
+  <h1>Bem-vindo, Administrador</h1>
+  <p class="user-info" id="userEmail">Carregando...</p>
+  <p>Painel de controle do Sistema de Apoio ao Ensino</p>
 
-<!-- CONTEÚDO PRINCIPAL -->
-<main class="features" style="padding-top: 40px;">
-
-  <!-- CADASTRO DE USUÁRIO -->
-  <div class="card show">
-    <h2>Cadastrar Novo Usuário</h2>
-    <form id="formCreateUser" class="contact-form">
-      <input type="email" id="newEmail" placeholder="Email do usuário" required>
-      <input type="password" id="newSenha" placeholder="Senha" required>
-      <select id="newRole" required>
-        <option value="" disabled selected>Selecione o perfil</option>
-        <option value="admin">Administrador</option>
+  <!-- CRIAÇÃO DE USUÁRIO -->
+  <div class="card">
+    <h2>Criar Novo Usuário</h2>
+    <form id="formCreateUser">
+      <input type="text" id="nome" placeholder="Nome completo" required>
+      <input type="email" id="email" placeholder="Email institucional" required>
+      <input type="password" id="senha" placeholder="Senha" required>
+      <select id="role" required>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
       </select>
-      <input type="text" id="newNome" placeholder="Nome completo" required>
-      <button type="submit" class="btn">Criar Usuário</button>
+      <button type="submit">Criar Usuário</button>
     </form>
-    <p id="createUserMsg" style="margin-top:10px; font-weight:bold;"></p>
   </div>
 
-</main>
-
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-brand">
-      <h3>SAE</h3>
-      <p>Sistema de Apoio Educacional para gestão escolar moderna.</p>
-    </div>
+  <!-- LISTA DE USUÁRIOS -->
+  <div class="card">
+    <h2>Usuários cadastrados</h2>
+    <table id="usersTable">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Perfil</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="3">Carregando usuários...</td></tr>
+      </tbody>
+    </table>
   </div>
-  <div class="footer-bottom">
-    <p>© <span id="ano-atual"></span> SAE. Todos os direitos reservados.</p>
-  </div>
-</footer>
+</div>
 
-<!-- SCRIPTS SUPABASE -->
+<!-- SCRIPTS -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase_client.js"></script>
-<script src="dashboard-admin.js"></script>
-
+<script src="login.js"></script>
 <script>
-  // Atualiza ano automático
-  document.getElementById("ano-atual").textContent = new Date().getFullYear();
+document.addEventListener("DOMContentLoaded", async () => {
+  // 1️⃣ Verifica sessão
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("userEmail").textContent = `Usuário autenticado: ${session.user.email}`;
+
+  // 2️⃣ Logout
+  document.getElementById("btnLogout").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+    window.location.href = "login.html";
+  });
+
+  // 3️⃣ Função de criar usuário
+  async function criarUsuario(email, senha, nome, role) {
+    try {
+      const response = await fetch('/api/create-user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: senha, nome, role })
+      });
+      const data = await response.json();
+      if (data.error) alert("Erro ao criar usuário: " + data.error);
+      else {
+        alert("Usuário criado com sucesso! ID: " + data.userId);
+        listarUsuarios();
+        document.getElementById("formCreateUser").reset();
+      }
+    } catch (err) {
+      alert("Erro: " + err.message);
+    }
+  }
+
+  // 4️⃣ Formulário submit
+  document.getElementById('formCreateUser').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nome = document.getElementById('nome').value;
+    const email = document.getElementById('email').value;
+    const senha = document.getElementById('senha').value;
+    const role = document.getElementById('role').value;
+    await criarUsuario(email, senha, nome, role);
+  });
+
+  // 5️⃣ Listar usuários
+  async function listarUsuarios() {
+    const { data, error } = await supabase.from('profiles').select('nome, role, id');
+    const tbody = document.querySelector("#usersTable tbody");
+    if (error) {
+      tbody.innerHTML = `<tr><td colspan="3">Erro ao carregar usuários</td></tr>`;
+      return;
+    }
+    if (!data.length) {
+      tbody.innerHTML = `<tr><td colspan="3">Nenhum usuário cadastrado</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = data.map(u => `
+      <tr>
+        <td>${u.nome}</td>
+        <td>${u.id}</td>
+        <td>${u.role}</td>
+      </tr>
+    `).join('');
+  }
+
+  // Inicializa listagem
+  listarUsuarios();
+});
 </script>
 
 </body>
