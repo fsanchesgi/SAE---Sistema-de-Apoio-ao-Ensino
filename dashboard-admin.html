@@ -1,196 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SAE - Dashboard Administrador</title>
-
-  <!-- CSS principal do projeto -->
-  <link rel="stylesheet" href="style.css" />
-
-  <!-- Supabase CDN -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
-  <!-- Cliente Supabase -->
-  <script src="supabase_cliente.js" defer></script>
+  <meta charset="UTF-8">
+  <title>Dashboard Admin | SAE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
 </head>
-
 <body>
 
-  <!-- ================= HEADER ================= -->
-  <header class="header">
-    <nav class="nav">
-      <h1 class="logo">SAE</h1>
-      <ul class="menu">
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#" id="btnLogout">Sair</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- ================= HERO ================= -->
-  <section class="hero">
-    <h2>Bem-vindo, <span id="admin-nome">Administrador</span></h2>
-    <p>Painel de controle do Sistema de Apoio ao Ensino</p>
-  </section>
-
-  <!-- ================= CONTEÚDO ================= -->
-  <section class="features">
-
-    <!-- CARD MÉTRICAS -->
-    <div class="card">
-      <h3>Visão Geral</h3>
-      <p>Total de usuários cadastrados</p>
-      <strong id="totalUsuarios">--</strong>
+<!-- HEADER -->
+<header class="header">
+  <div class="container-header">
+    <div class="logo">
+      <img src="images/logo.png" alt="SAE" height="40">
     </div>
 
-    <!-- CARD CADASTRO -->
-    <div class="card">
-      <h3>Cadastrar novo usuário</h3>
-
-      <form id="formUsuario" class="contact-form">
-        <input type="text" id="nome" placeholder="Nome completo" required />
-        <input type="email" id="email" placeholder="Email" required />
-
-        <select id="role" required>
-          <option value="">Selecione o perfil</option>
-          <option value="admin">Administrador</option>
-          <option value="professor">Professor</option>
-          <option value="aluno">Aluno</option>
-        </select>
-
-        <button type="submit" class="btn">Criar usuário</button>
-      </form>
+    <div class="nav-right">
+      <button id="btnLogout" class="btn-header">Sair</button>
     </div>
+  </div>
+</header>
 
-    <!-- CARD LISTAGEM -->
-    <div class="card">
-      <h3>Usuários cadastrados</h3>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Perfil</th>
-          </tr>
-        </thead>
-        <tbody id="listaUsuarios">
-          <!-- preenchido via JS -->
-        </tbody>
-      </table>
-    </div>
+<!-- HERO -->
+<header class="hero hero-login">
+  <div class="hero-text">
+    <h1>Dashboard Administrativo</h1>
+    <p id="userEmail">Carregando usuário...</p>
+  </div>
+</header>
 
-  </section>
+<!-- CONTEÚDO -->
+<section class="features">
 
-  <!-- ================= FOOTER ================= -->
-  <footer class="footer">
-    <p>© 2025 SAE - Sistema de Apoio ao Ensino</p>
-  </footer>
+  <!-- CARD ADMIN -->
+  <div class="card show">
+    <h2>Cadastrar novo usuário</h2>
+    <p>Crie contas para professores, alunos ou administradores.</p>
 
-  <!-- ================= SCRIPT ================= -->
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
+    <form id="formCriarUsuario" class="contact-form">
+      <input type="text" id="nome" placeholder="Nome completo" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="senha" placeholder="Senha inicial" required>
 
-      if (!window.supabase) {
-        alert("Erro: Supabase não inicializado.");
-        window.location.href = "login.html";
-        return;
-      }
+      <select id="role" required>
+        <option value="">Selecione o perfil</option>
+        <option value="admin">Administrador</option>
+        <option value="professor">Professor</option>
+        <option value="aluno">Aluno</option>
+      </select>
 
-      /* ================= SESSÃO ================= */
-      const { data: { session } } = await window.supabase.auth.getSession();
+      <button type="submit" class="btn">Criar usuário</button>
+    </form>
 
-      if (!session) {
-        window.location.href = "login.html";
-        return;
-      }
+    <p id="msgStatus" style="margin-top:15px;"></p>
+  </div>
 
-      /* ================= PERFIL ================= */
-      const { data: profile, error } = await window.supabase
-        .from("profiles")
-        .select("nome, role")
-        .eq("id", session.user.id)
-        .single();
+</section>
 
-      if (error || profile.role !== "admin") {
-        alert("Acesso restrito ao administrador.");
-        window.location.href = "login.html";
-        return;
-      }
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-bottom">
+    <p>© <span id="ano"></span> SAE – Sistema de Apoio Educacional</p>
+  </div>
+</footer>
 
-      document.getElementById("admin-nome").textContent =
-        profile.nome || session.user.email;
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="supabase_client.js"></script>
+<script src="dashboard-admin.js"></script>
 
-      /* ================= LISTAR USUÁRIOS ================= */
-      const carregarUsuarios = async () => {
-        const { data, error } = await window.supabase
-          .from("profiles")
-          .select("nome, email, role")
-          .order("created_at", { ascending: false });
-
-        if (error) return;
-
-        document.getElementById("totalUsuarios").textContent = data.length;
-
-        const tbody = document.getElementById("listaUsuarios");
-        tbody.innerHTML = "";
-
-        data.forEach(user => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${user.nome || "-"}</td>
-            <td>${user.email || "-"}</td>
-            <td>${user.role}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      };
-
-      carregarUsuarios();
-
-      /* ================= CADASTRO ================= */
-      document.getElementById("formUsuario").addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const nome = document.getElementById("nome").value;
-        const email = document.getElementById("email").value;
-        const role = document.getElementById("role").value;
-
-        const senhaTemp = Math.random().toString(36).slice(-8);
-
-        const { data, error } = await window.supabase.auth.signUp({
-          email,
-          password: senhaTemp
-        });
-
-        if (error) {
-          alert(error.message);
-          return;
-        }
-
-        await window.supabase.from("profiles").insert({
-          id: data.user.id,
-          nome,
-          email,
-          role
-        });
-
-        alert(
-          `Usuário criado com sucesso!\n\nEmail: ${email}\nSenha temporária: ${senhaTemp}`
-        );
-
-        e.target.reset();
-        carregarUsuarios();
-      });
-
-      /* ================= LOGOUT ================= */
-      document.getElementById("btnLogout").addEventListener("click", async () => {
-        await window.supabase.auth.signOut();
-        window.location.href = "login.html";
-      });
-
-    });
-  </script>
+<script>
+  document.getElementById("ano").textContent = new Date().getFullYear();
+</script>
 
 </body>
 </html>
