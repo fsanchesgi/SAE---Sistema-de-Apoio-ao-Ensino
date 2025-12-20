@@ -1,241 +1,195 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>SAE | Dashboard Administrador</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Dashboard Admin - SAE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="images/logo.png" type="image/png">
 
-<style>
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
+  <style>
+    /* ===== AJUSTES EXCLUSIVOS DO DASHBOARD ===== */
+    body {
+      padding-top: 90px;
+    }
 
-body {
-  background: #f4f6f9;
-  color: #1f2937;
-}
+    .dashboard-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 10%;
+    }
 
-/* HEADER ADMIN */
-.header-admin {
-  width: 100%;
-  height: 64px;
-  background: #0f172a;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 30px;
-  position: relative;
-  z-index: 10;
-}
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+    }
 
-.header-admin h1 {
-  font-size: 1.1rem;
-  font-weight: bold;
-}
+    .dashboard-header h1 {
+      font-size: 2rem;
+    }
 
-.header-admin button {
-  background: #dc2626;
-  border: none;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
+    .user-email {
+      font-size: 0.95rem;
+      color: #475569;
+      margin-top: 6px;
+    }
 
-.header-admin button:hover {
-  background: #b91c1c;
-}
+    .btn-logout {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
 
-/* CONTEÚDO */
-.main-admin {
-  max-width: 1100px;
-  margin: 30px auto;
-  padding: 0 20px;
-}
+    .btn-logout:hover {
+      background: #b91c1c;
+    }
 
-/* TITULOS */
-.page-title {
-  margin-bottom: 6px;
-  font-size: 1.8rem;
-}
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
 
-.page-subtitle {
-  margin-bottom: 25px;
-  color: #475569;
-}
+    .dashboard-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
 
-/* SEÇÕES */
-.section {
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
-  margin-bottom: 30px;
-}
+    .dashboard-card h2 {
+      margin-bottom: 15px;
+    }
 
-.section h2 {
-  margin-bottom: 20px;
-  font-size: 1.3rem;
-}
-
-/* FORM */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 16px;
-}
-
-.form-grid input,
-.form-grid select {
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid #cbd5f5;
-  font-size: 0.95rem;
-}
-
-.form-grid button {
-  grid-column: 1 / -1;
-  max-width: 260px;
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  padding: 12px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.form-grid button:hover {
-  background: #1e40af;
-}
-
-.msg {
-  margin-top: 15px;
-  font-weight: bold;
-}
-
-/* FOOTER */
-.footer-admin {
-  text-align: center;
-  padding: 20px;
-  font-size: 0.85rem;
-  color: #64748b;
-}
-</style>
+    .dashboard-card p {
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header class="header-admin">
-  <h1>SAE • Administrador</h1>
-  <button id="btnLogout">Sair</button>
+<!-- HEADER PADRÃO -->
+<header class="header">
+  <div class="container-header">
+    <div class="logo">
+      <img src="images/logo.png" alt="SAE" height="40">
+    </div>
+
+    <nav class="nav-left">
+      <a href="dashboard-admin.html">Dashboard</a>
+      <a href="#">Usuários</a>
+      <a href="#">Relatórios</a>
+    </nav>
+
+    <div class="nav-right">
+      <button class="btn-logout" id="btnLogout">Sair</button>
+    </div>
+  </div>
 </header>
 
 <!-- CONTEÚDO -->
-<main class="main-admin">
+<main class="dashboard-container">
 
-  <h2 class="page-title">Bem-vindo, Administrador</h2>
-  <p class="page-subtitle">
-    Painel de controle do Sistema de Apoio ao Ensino
-  </p>
+  <div class="dashboard-header">
+    <div>
+      <h1>Bem-vindo, Administrador</h1>
+      <div class="user-email" id="userEmail">Carregando usuário...</div>
+    </div>
+  </div>
 
-  <!-- CADASTRO USUÁRIO -->
-  <section class="section">
-    <h2>Cadastrar novo usuário</h2>
+  <section class="dashboard-grid">
 
-    <form id="formCreateUser" class="form-grid">
-      <input type="text" id="nome" placeholder="Nome completo" required>
-      <input type="email" id="email" placeholder="E-mail" required>
-      <input type="password" id="senha" placeholder="Senha" required>
+    <!-- CARD 1 -->
+    <div class="dashboard-card">
+      <h2>Cadastro de Usuários</h2>
+      <p>Crie novos usuários no sistema e defina seus perfis de acesso.</p>
 
-      <select id="perfil" required>
-        <option value="">Selecione o perfil</option>
-        <option value="admin">Administrador</option>
-        <option value="professor">Professor</option>
-        <option value="aluno">Aluno</option>
-      </select>
+      <form id="formCreateUser" class="contact-form">
+        <input type="email" id="newEmail" placeholder="Email do usuário" required>
 
-      <button type="submit">Cadastrar usuário</button>
-    </form>
+        <select id="newRole" required>
+          <option value="">Selecione o perfil</option>
+          <option value="admin">Administrador</option>
+          <option value="professor">Professor</option>
+          <option value="aluno">Aluno</option>
+        </select>
 
-    <div class="msg" id="msgUser"></div>
+        <button type="submit" class="btn">Cadastrar Usuário</button>
+      </form>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="dashboard-card">
+      <h2>Status do Sistema</h2>
+      <p>Monitoramento básico do ambiente.</p>
+      <ul>
+        <li>✔ Supabase conectado</li>
+        <li>✔ Sessão ativa</li>
+        <li>✔ Dashboard protegido</li>
+      </ul>
+    </div>
+
   </section>
 
 </main>
 
-<footer class="footer-admin">
-  SAE — Sistema de Apoio ao Ensino © <span id="ano"></span>
-</footer>
+<!-- SUPABASE CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<!-- SUPABASE -->
+<!-- CLIENTE SUPABASE -->
+<script src="./supabase_cliente.js"></script>
+
+<!-- SCRIPT DO DASHBOARD -->
 <script>
-const supabaseUrl = "https://uqwbduinwugaqexsvkxc.supabase.co";
-const supabaseKey = "SUA_ANON_KEY_AQUI";
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-document.getElementById("ano").textContent = new Date().getFullYear();
-
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const { data: { session } } = await supabase.auth.getSession();
+  if (!window.supabase) {
+    alert("Supabase não inicializado");
+    return;
+  }
+
+  // 🔐 Proteção de rota
+  const { data: { session } } = await window.supabase.auth.getSession();
 
   if (!session) {
     window.location.href = "login.html";
     return;
   }
 
-  // LOGOUT
-  document.getElementById("btnLogout").onclick = async () => {
-    await supabase.auth.signOut();
+  // Exibe email
+  document.getElementById("userEmail").textContent =
+    "Usuário autenticado: " + session.user.email;
+
+  // Logout
+  document.getElementById("btnLogout").addEventListener("click", async () => {
+    await window.supabase.auth.signOut();
     window.location.href = "login.html";
-  };
+  });
 
-  // CADASTRO
-  const form = document.getElementById("formCreateUser");
-  const msg = document.getElementById("msgUser");
-
-  form.addEventListener("submit", async (e) => {
+  // Cadastro de usuário (visual por enquanto)
+  document.getElementById("formCreateUser").addEventListener("submit", (e) => {
     e.preventDefault();
-    msg.textContent = "Criando usuário...";
 
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    const perfil = document.getElementById("perfil").value;
+    const email = document.getElementById("newEmail").value;
+    const role = document.getElementById("newRole").value;
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password: senha
-    });
-
-    if (error) {
-      msg.textContent = error.message;
-      return;
-    }
-
-    const { error: profileError } = await supabase
-      .from("profiles")
-      .insert({
-        id: data.user.id,
-        nome,
-        perfil
-      });
-
-    if (profileError) {
-      msg.textContent = "Usuário criado, erro ao salvar perfil.";
-      return;
-    }
-
-    msg.textContent = "Usuário cadastrado com sucesso!";
-    form.reset();
+    alert(
+      "Usuário a ser criado:\n\n" +
+      "Email: " + email + "\n" +
+      "Perfil: " + role + "\n\n" +
+      "(Backend será conectado no próximo passo)"
+    );
   });
 
 });
