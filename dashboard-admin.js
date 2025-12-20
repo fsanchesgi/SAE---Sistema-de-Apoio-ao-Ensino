@@ -1,135 +1,160 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>SAE | Dashboard Administrador</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<title>SAE | Dashboard Administrador</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Supabase CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<style>
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    body {
-      margin: 0;
-      background: #f4f6f9;
-      color: #333;
-    }
+body {
+  background: #f4f6f9;
+  color: #1f2937;
+}
 
-    header {
-      background: #0a2a66;
-      color: #fff;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+/* HEADER ADMIN */
+.header-admin {
+  width: 100%;
+  height: 64px;
+  background: #0f172a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: relative;
+  z-index: 10;
+}
 
-    header nav a {
-      color: #fff;
-      margin-right: 20px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+.header-admin h1 {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
 
-    header button {
-      background: #c62828;
-      border: none;
-      color: #fff;
-      padding: 8px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+.header-admin button {
+  background: #dc2626;
+  border: none;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
 
-    main {
-      max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 20px;
-    }
+.header-admin button:hover {
+  background: #b91c1c;
+}
 
-    h1 {
-      margin-bottom: 5px;
-    }
+/* CONTEÚDO */
+.main-admin {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
 
-    .user-info {
-      margin-bottom: 25px;
-      font-size: 14px;
-      color: #555;
-    }
+/* TITULOS */
+.page-title {
+  margin-bottom: 6px;
+  font-size: 1.8rem;
+}
 
-    section {
-      background: #fff;
-      padding: 25px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,.08);
-      margin-bottom: 30px;
-    }
+.page-subtitle {
+  margin-bottom: 25px;
+  color: #475569;
+}
 
-    form {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
+/* SEÇÕES */
+.section {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  margin-bottom: 30px;
+}
 
-    form input,
-    form select,
-    form button {
-      padding: 10px;
-      font-size: 14px;
-    }
+.section h2 {
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
 
-    form button {
-      background: #0a2a66;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      grid-column: 1 / -1;
-      max-width: 250px;
-    }
+/* FORM */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
 
-    .msg {
-      margin-top: 15px;
-      font-weight: bold;
-    }
+.form-grid input,
+.form-grid select {
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5f5;
+  font-size: 0.95rem;
+}
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #0a2a66;
-      color: #fff;
-      margin-top: 40px;
-    }
-  </style>
+.form-grid button {
+  grid-column: 1 / -1;
+  max-width: 260px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.form-grid button:hover {
+  background: #1e40af;
+}
+
+.msg {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+/* FOOTER */
+.footer-admin {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <nav>
-    <a href="#">Início</a>
-    <a href="#">Usuários</a>
-    <a href="#">Configurações</a>
-  </nav>
+<!-- HEADER -->
+<header class="header-admin">
+  <h1>SAE • Administrador</h1>
   <button id="btnLogout">Sair</button>
 </header>
 
-<main>
-  <h1>Dashboard do Administrador</h1>
-  <div class="user-info" id="userEmail">Carregando usuário...</div>
+<!-- CONTEÚDO -->
+<main class="main-admin">
 
-  <section>
+  <h2 class="page-title">Bem-vindo, Administrador</h2>
+  <p class="page-subtitle">
+    Painel de controle do Sistema de Apoio ao Ensino
+  </p>
+
+  <!-- CADASTRO USUÁRIO -->
+  <section class="section">
     <h2>Cadastrar novo usuário</h2>
 
-    <form id="formCreateUser">
-      <input type="text" id="nome" placeholder="Nome completo" required />
-      <input type="email" id="email" placeholder="E-mail" required />
-      <input type="password" id="senha" placeholder="Senha" required />
+    <form id="formCreateUser" class="form-grid">
+      <input type="text" id="nome" placeholder="Nome completo" required>
+      <input type="email" id="email" placeholder="E-mail" required>
+      <input type="password" id="senha" placeholder="Senha" required>
 
       <select id="perfil" required>
         <option value="">Selecione o perfil</option>
@@ -141,83 +166,71 @@
       <button type="submit">Cadastrar usuário</button>
     </form>
 
-    <div class="msg" id="userCreateMsg"></div>
+    <div class="msg" id="msgUser"></div>
   </section>
+
 </main>
 
-<footer>
-  SAE — Sistema de Apoio ao Ensino © <span id="ano-atual"></span>
+<footer class="footer-admin">
+  SAE — Sistema de Apoio ao Ensino © <span id="ano"></span>
 </footer>
 
-<!-- Cliente Supabase -->
+<!-- SUPABASE -->
 <script>
-const supabaseUrl = "https://vhwhjnghtmlrfieiwssi.supabase.co";
+const supabaseUrl = "https://uqwbduinwugaqexsvkxc.supabase.co";
 const supabaseKey = "SUA_ANON_KEY_AQUI";
+const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
-
-<!-- Script Dashboard -->
-<script>
-document.getElementById("ano-atual").textContent = new Date().getFullYear();
+document.getElementById("ano").textContent = new Date().getFullYear();
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-  // 🔐 Verifica sessão
-  const { data: { session } } = await window.supabase.auth.getSession();
+  const { data: { session } } = await supabase.auth.getSession();
 
   if (!session) {
     window.location.href = "login.html";
     return;
   }
 
-  document.getElementById("userEmail").textContent =
-    "Usuário autenticado: " + session.user.email;
-
-  // 🚪 Logout
-  document.getElementById("btnLogout").addEventListener("click", async () => {
-    await window.supabase.auth.signOut();
+  // LOGOUT
+  document.getElementById("btnLogout").onclick = async () => {
+    await supabase.auth.signOut();
     window.location.href = "login.html";
-  });
+  };
 
-  // 👤 Cadastro de usuário
+  // CADASTRO
   const form = document.getElementById("formCreateUser");
-  const msg = document.getElementById("userCreateMsg");
+  const msg = document.getElementById("msgUser");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-
     msg.textContent = "Criando usuário...";
 
-    const nome = nomeInput = document.getElementById("nome").value;
+    const nome = document.getElementById("nome").value;
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
     const perfil = document.getElementById("perfil").value;
 
-    // Cria usuário no Auth
-    const { data: authData, error: authError } =
-      await window.supabase.auth.signUp({
-        email,
-        password: senha
-      });
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password: senha
+    });
 
-    if (authError) {
-      msg.textContent = "Erro: " + authError.message;
+    if (error) {
+      msg.textContent = error.message;
       return;
     }
 
-    // Salva perfil
-    const { error: profileError } = await window.supabase
+    const { error: profileError } = await supabase
       .from("profiles")
       .insert({
-        id: authData.user.id,
+        id: data.user.id,
         nome,
         perfil
       });
 
     if (profileError) {
-      msg.textContent =
-        "Usuário criado, mas erro ao salvar perfil.";
+      msg.textContent = "Usuário criado, erro ao salvar perfil.";
       return;
     }
 
