@@ -2,15 +2,10 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard Admin - SAE | Sistema de Apoio ao Ensino</title>
-  <meta name="description" content="Painel administrativo do SAE para gestão de usuários, turmas e estrutura escolar.">
-  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard Admin | SAE</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS PADRÃO -->
+  <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="style.css">
-
-  <!-- FAVICON -->
   <link rel="icon" href="images/logo.png" type="image/png">
 </head>
 <body>
@@ -20,14 +15,14 @@
   <div class="container-header">
     <div class="logo">
       <a href="index.html">
-        <img src="images/logo.png" alt="SAE - Sistema de Apoio ao Ensino" height="40">
+        <img src="images/logo.png" alt="SAE" height="40">
       </a>
     </div>
 
     <nav class="nav-left">
       <a href="#">Dashboard</a>
       <a href="#">Usuários</a>
-      <a href="#">Relatórios</a>
+      <a href="#">Configurações</a>
     </nav>
 
     <div class="nav-right">
@@ -36,109 +31,120 @@
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO DASHBOARD -->
 <header class="hero hero-dashboard">
   <div class="hero-text">
-    <h1>Dashboard Administrativo</h1>
-    <p>
-      Painel de controle do <strong>Sistema de Apoio ao Ensino (SAE)</strong>
-      para administração escolar e gestão institucional.
-    </p>
+    <h1>Área Administrativa</h1>
+    <p>Painel de controle do Sistema de Apoio ao Ensino</p>
+    <p id="userEmail" style="margin-top:10px;font-size:0.95rem;"></p>
   </div>
 </header>
 
-<!-- CONTEÚDO PRINCIPAL -->
+<!-- CONTEÚDO ADMIN -->
 <section class="features">
 
-  <!-- STATUS DA SESSÃO -->
+  <!-- CARD VISÃO GERAL -->
   <div class="card show">
-    <h3>Status da Sessão</h3>
-    <p id="userEmail">Carregando informações do usuário...</p>
+    <h3>Visão Geral</h3>
+    <p>
+      Este painel permite o gerenciamento completo da plataforma SAE,
+      incluindo usuários, permissões e dados institucionais.
+    </p>
   </div>
 
-  <!-- GESTÃO DE USUÁRIOS -->
+  <!-- CARD CADASTRO USUÁRIO -->
   <div class="card show">
-    <h3>Gestão de Usuários</h3>
-    <p>
-      Cadastre e administre usuários do sistema, definindo perfis como
-      <strong>Administrador, Professor, Aluno ou Responsável</strong>.
-    </p>
-    <button class="btn">Cadastrar novo usuário</button>
-  </div>
+    <h3>Cadastrar novo usuário</h3>
+    <p>Crie usuários e defina o perfil de acesso.</p>
 
-  <!-- GESTÃO ACADÊMICA -->
-  <div class="card show">
-    <h3>Gestão Acadêmica</h3>
-    <p>
-      Controle turmas, disciplinas, professores e organização pedagógica
-      da instituição.
-    </p>
-    <button class="btn">Gerenciar turmas</button>
-  </div>
+    <form id="formCreateUser" class="contact-form">
+      <input type="text" id="nome" placeholder="Nome completo" required>
+      <input type="email" id="email" placeholder="E-mail" required>
+      <input type="password" id="senha" placeholder="Senha inicial" required>
 
-  <!-- RELATÓRIOS -->
-  <div class="card show">
-    <h3>Relatórios e Indicadores</h3>
-    <p>
-      Acompanhe métricas educacionais, desempenho acadêmico
-      e relatórios institucionais.
-    </p>
-    <button class="btn">Visualizar relatórios</button>
+      <select id="perfil" required>
+        <option value="">Selecione o perfil</option>
+        <option value="admin">Administrador</option>
+        <option value="professor">Professor</option>
+        <option value="aluno">Aluno</option>
+        <option value="responsavel">Responsável</option>
+      </select>
+
+      <button type="submit" class="btn">Cadastrar usuário</button>
+    </form>
+
+    <p id="userCreateMsg" style="margin-top:10px;font-size:0.9rem;"></p>
   </div>
 
 </section>
 
 <!-- FOOTER PADRÃO -->
 <footer class="footer">
-  <div class="footer-container">
-
-    <div class="footer-brand">
-      <h3>SAE</h3>
-      <p>
-        Sistema de Apoio Educacional desenvolvido para otimizar
-        a gestão escolar e fortalecer o acompanhamento pedagógico.
-      </p>
-    </div>
-
-    <div class="footer-links">
-      <h4>Institucional</h4>
-      <a href="institucional.html">Sobre o SAE</a>
-      <a href="planos.html">Planos</a>
-      <a href="contato.html">Contato</a>
-    </div>
-
-    <div class="footer-links">
-      <h4>Documentos</h4>
-      <a href="lgpd.html">LGPD e Segurança</a>
-      <a href="politica-privacidade.html">Política de Privacidade</a>
-      <a href="termos.html">Termos de Uso</a>
-    </div>
-
-  </div>
-
   <div class="footer-bottom">
-    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional. Todos os direitos reservados.</p>
+    <p>© <span id="ano-atual"></span> SAE – Sistema de Apoio Educacional.</p>
   </div>
 </footer>
 
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<!-- SUPABASE -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase_client.js"></script>
-<script src="dashboard-admin.js"></script>
 
 <script>
-  document.getElementById("ano-atual").textContent = new Date().getFullYear();
+document.getElementById("ano-atual").textContent = new Date().getFullYear();
 
-  const cards = document.querySelectorAll('.card');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-      }
+document.addEventListener("DOMContentLoaded", async () => {
+
+  // 🔒 Proteção de sessão
+  const { data: { session } } = await window.supabase.auth.getSession();
+
+  if (!session) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("userEmail").textContent =
+    `Usuário autenticado: ${session.user.email}`;
+
+  // 🚪 Logout
+  document.getElementById("btnLogout").addEventListener("click", async () => {
+    await window.supabase.auth.signOut();
+    window.location.href = "login.html";
+  });
+
+  // 👤 Cadastro de usuário
+  const form = document.getElementById("formCreateUser");
+  const msg = document.getElementById("userCreateMsg");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nome = document.getElementById("nome").value;
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    const perfil = document.getElementById("perfil").value;
+
+    msg.textContent = "Criando usuário...";
+
+    // ⚠️ IMPORTANTE
+    // Esse cadastro cria usuário no AUTH
+    // O perfil será salvo depois na tabela profiles
+    const { data, error } = await window.supabase.auth.signUp({
+      email,
+      password: senha
     });
-  }, { threshold: 0.2 });
 
-  cards.forEach(card => observer.observe(card));
+    if (error) {
+      msg.textContent = "Erro: " + error.message;
+      return;
+    }
+
+    msg.textContent =
+      `Usuário criado com sucesso. Perfil: ${perfil}`;
+
+    form.reset();
+  });
+
+});
 </script>
 
 </body>
