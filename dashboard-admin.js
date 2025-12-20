@@ -6,35 +6,34 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 
   // Formulário de cadastro
-  const form = document.getElementById("formCadastro");
   form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    const role = document.getElementById("role").value;
+  const nome = document.getElementById("nome").value;
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+  const role = document.getElementById("role").value;
 
-    const resultado = document.getElementById("resultadoCadastro");
-    resultado.textContent = "Cadastrando...";
+  const resultado = document.getElementById("resultadoCadastro");
+  resultado.textContent = "Cadastrando...";
 
-    try {
-      const response = await fetch("https://vhwhjnghtmlrfieiwssi.functions.supabase.co/create-user", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ nome, email, senha, role })
-      });
+  try {
+    const response = await fetch("https://SEU_EDGE_FUNCTION_URL/create-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome, email, senha, role })
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (data.error) {
-        resultado.textContent = "Erro: " + data.error;
-      } else {
-        resultado.textContent = "Usuário cadastrado com sucesso!";
-        form.reset();
-      }
-    } catch (err) {
-      resultado.textContent = "Erro ao conectar: " + err.message;
+    if (data.error) {
+      resultado.textContent = "Erro: " + data.error;
+    } else {
+      resultado.textContent = "Usuário cadastrado com sucesso!";
+      form.reset();
     }
-  });
+  } catch (err) {
+    resultado.textContent = "Erro ao conectar: " + err.message;
+  }
+});
 });
