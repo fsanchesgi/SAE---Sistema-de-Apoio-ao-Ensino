@@ -3,41 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard Admin - SAE</title>
+  <meta name="description" content="Painel de controle do SAE para administradores.">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="images/logo.png" type="image/png">
-  <style>
-    body { background: #f5f7fa; color: #333; font-family: Arial, sans-serif; margin: 0; padding: 0; }
-    .dashboard-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
-    .hero { height: 250px; background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/img0.png") center / cover no-repeat; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; border-radius: 12px; margin-bottom: 30px; }
-    .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
-    .hero p { font-size: 1.1rem; }
-
-    .header { position: fixed; top: 0; width: 100%; z-index: 1000; background: rgba(0, 0, 0, 0.25); backdrop-filter: blur(6px); }
-    .container-header { max-width: 1200px; margin: auto; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; }
-    .nav-left { display: flex; gap: 30px; }
-    .nav-left a { color: #fff; text-decoration: none; font-weight: 500; transition: 0.3s; }
-    .nav-left a:hover { color: #93c5fd; }
-    .btn-header { background: #2563eb; color: #fff; padding: 10px 22px; border-radius: 8px; text-decoration: none; font-weight: 500; transition: 0.3s; }
-    .btn-header:hover { background: #1e40af; }
-
-    /* FORMULÁRIO DE CADASTRO */
-    .card { background: #fff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 25px; margin-bottom: 30px; }
-    .card h2 { margin-bottom: 15px; }
-    .contact-form { display: flex; flex-direction: column; gap: 15px; }
-    .contact-form input, .contact-form select { width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 1rem; }
-    .contact-form input:focus, .contact-form select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15); }
-    .contact-form button { background: #2563eb; color: #fff; padding: 12px 25px; border-radius: 8px; border: none; cursor: pointer; font-weight: 500; transition: 0.3s; }
-    .contact-form button:hover { background: #1e40af; }
-  </style>
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- HEADER PADRÃO COM LOGO -->
 <header class="header">
   <div class="container-header">
     <div class="logo">
-      <a href="index.html"><img src="images/logo.png" alt="SAE" height="40"></a>
+      <a href="index.html">
+        <img src="images/logo.png" alt="SAE" height="40">
+      </a>
     </div>
     <nav class="nav-left">
       <a href="index.html">Início</a>
@@ -51,83 +30,108 @@
 </header>
 
 <!-- HERO -->
-<div class="hero">
-  <div>
+<header class="hero hero-login">
+  <div class="hero-text">
     <h1>Bem-vindo, Administrador</h1>
     <p>Painel de controle do Sistema de Apoio ao Ensino</p>
+    <p id="userEmail"></p>
   </div>
-</div>
+</header>
 
-<div class="dashboard-container">
-
-  <!-- FORMULÁRIO DE CADASTRO DE USUÁRIOS -->
-  <div class="card">
+<!-- FORMULÁRIO DE CADASTRO -->
+<section class="features">
+  <div class="card show">
     <h2>Cadastrar Novo Usuário</h2>
     <form id="formCadastro" class="contact-form">
       <input type="text" id="nome" placeholder="Nome completo" required>
       <input type="email" id="email" placeholder="Email" required>
       <input type="password" id="senha" placeholder="Senha" required>
       <select id="role" required>
-        <option value="" disabled selected>Escolha o perfil</option>
+        <option value="">Selecione o perfil</option>
         <option value="professor">Professor</option>
         <option value="aluno">Aluno</option>
       </select>
-      <button type="submit">Cadastrar Usuário</button>
+      <button type="submit" class="btn">Cadastrar Usuário</button>
     </form>
+    <p id="msgCadastro"></p>
   </div>
+</section>
 
-  <div id="mensagem"></div>
-
-</div>
+<!-- FOOTER PADRÃO -->
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <h3>SAE</h3>
+      <p>Sistema de Apoio Educacional desenvolvido para otimizar a gestão escolar e acompanhar o desempenho pedagógico.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Institucional</h4>
+      <a href="institucional.html">Sobre o SAE</a>
+      <a href="planos.html">Planos</a>
+      <a href="contato.html">Contato</a>
+    </div>
+    <div class="footer-links">
+      <h4>Documentos</h4>
+      <a href="lgpd.html">LGPD e Segurança</a>
+      <a href="politica-privacidade.html">Política de Privacidade</a>
+      <a href="termos.html">Termos de Uso</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span id="ano-atual"></span> SAE – Todos os direitos reservados.</p>
+  </div>
+</footer>
 
 <!-- SCRIPTS -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="supabase_client.js"></script>
+
 <script>
-document.addEventListener("DOMContentLoaded", async () => {
-  // 1️⃣ Verifica sessão
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    window.location.href = "login.html";
-    return;
-  }
+  document.addEventListener("DOMContentLoaded", async () => {
+    // Atualiza ano
+    document.getElementById("ano-atual").textContent = new Date().getFullYear();
 
-  // 2️⃣ Logout
-  document.getElementById("btnLogout").addEventListener("click", async () => {
-    await supabase.auth.signOut();
-    window.location.href = "login.html";
-  });
-
-  // 3️⃣ Cadastro de usuários
-  const form = document.getElementById("formCadastro");
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nome = document.getElementById("nome").value;
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
-    const role = document.getElementById("role").value;
-
-    try {
-      // Cria usuário no Auth
-      const { data: user, error: authError } = await supabase.auth.admin.createUser({
-        email,
-        password: senha
-      });
-      if (authError) throw authError;
-
-      // Salva perfil na tabela profiles
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([{ id: user.user.id, nome, role }]);
-      if (profileError) throw profileError;
-
-      document.getElementById("mensagem").textContent = "✅ Usuário cadastrado com sucesso!";
-      form.reset();
-    } catch (err) {
-      document.getElementById("mensagem").textContent = "❌ Erro ao criar usuário: " + err.message;
+    // Verifica sessão
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      window.location.href = "login.html";
+      return;
     }
+    document.getElementById("userEmail").textContent = `Usuário autenticado: ${session.user.email}`;
+
+    // Logout
+    document.getElementById("btnLogout").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+      window.location.href = "login.html";
+    });
+
+    // Cadastro de usuário (simulação no front-end)
+    const form = document.getElementById("formCadastro");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nome").value;
+      const email = document.getElementById("email").value;
+      const senha = document.getElementById("senha").value;
+      const role = document.getElementById("role").value;
+
+      // ⚠️ Aqui precisa de backend seguro para criar usuários reais
+      // No front-end apenas mostra mensagem de teste
+      document.getElementById("msgCadastro").textContent = 
+        `Usuário ${nome} (${role}) cadastrado com sucesso (simulação).`;
+      form.reset();
+    });
+
+    // Animação cards
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('show');
+        }
+      });
+    }, {threshold: 0.2});
+    cards.forEach(card => observer.observe(card));
   });
-});
 </script>
 
 </body>
